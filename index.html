@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <title>SINGH STUDIOS — Wear the Silence</title>
+  <meta name="description" content="Singh Studios — cinematic streetwear from the edge of the night. A new drop, a new language." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="is-loading">
+  <!-- ===== Custom Cursor ===== -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+    <span class="cursor__label"></span>
+  </div>
+
+  <!-- ===== Grain Overlay ===== -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- ===== Loader ===== -->
+  <div class="loader" id="loader">
+    <div class="loader__counter"><span id="loaderCount">0</span><span class="loader__pct">%</span></div>
+    <div class="loader__bar"><span></span></div>
+    <div class="loader__brand">SINGH / STUDIOS</div>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header class="nav" data-cursor-stick>
+    <a href="#" class="nav__logo" data-cursor="hover">
+      <span>SINGH</span><i>/</i><span>STUDIOS</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#manifesto" data-cursor="hover">Manifesto</a>
+      <a href="#drop" data-cursor="hover">The Drop</a>
+      <a href="#lookbook" data-cursor="hover">Lookbook</a>
+      <a href="#assistant" data-cursor="hover">AI Stylist</a>
+    </nav>
+    <button class="nav__cta" data-cursor="hover">
+      <span>Enter the Vault</span>
+      <em>→</em>
+    </button>
+  </header>
+
+  <!-- ===== Smooth Scroll Wrapper ===== -->
+  <main id="smooth-content">
+
+    <!-- ============================================== -->
+    <!-- HERO -->
+    <!-- ============================================== -->
+    <section class="hero" id="hero">
+      <div class="hero__bg">
+        <img
+          src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2400&q=80"
+          alt=""
+          class="hero__img"
+          data-parallax="0.25"
+        />
+        <div class="hero__overlay"></div>
+      </div>
+
+      <div class="hero__meta hero__meta--tl">
+        <span class="dot"></span>
+        <span>NIGHT / 04 — VOL. I</span>
+      </div>
+      <div class="hero__meta hero__meta--tr">
+        <span>NEW DELHI · BERLIN · TOKYO</span>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="line"><span class="word">WEAR</span></span>
+        <span class="line"><span class="word">THE</span></span>
+        <span class="line outline"><span class="word">SILENCE</span></span>
+      </h1>
+
+      <div class="hero__sub">
+        <p>
+          A cinematic streetwear ritual from the studio of <em>Singh</em>.
+          Built for the ones who move between cities, between hours,
+          between worlds.
+        </p>
+        <a href="#manifesto" class="hero__scroll" data-cursor="hover">
+          <span class="hero__scroll-line"></span>
+          <em>SCROLL — DROP 04</em>
+        </a>
+      </div>
+
+      <div class="hero__counter">
+        <span class="hero__counter-num">04</span>
+        <span class="hero__counter-lbl">DROP / SS26</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MARQUEE -->
+    <!-- ============================================== -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee__track" data-marquee>
+        <span>SINGH STUDIOS</span><i>✦</i>
+        <span>DROP 04</span><i>✦</i>
+        <span>WEAR THE SILENCE</span><i>✦</i>
+        <span>SS / 2026</span><i>✦</i>
+        <span>MADE BY NIGHT</span><i>✦</i>
+        <span>SINGH STUDIOS</span><i>✦</i>
+        <span>DROP 04</span><i>✦</i>
+        <span>WEAR THE SILENCE</span><i>✦</i>
+        <span>SS / 2026</span><i>✦</i>
+        <span>MADE BY NIGHT</span><i>✦</i>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MANIFESTO -->
+    <!-- ============================================== -->
+    <section class="manifesto" id="manifesto">
+      <div class="manifesto__label">
+        <span class="dot"></span><em>01 / MANIFESTO</em>
+      </div>
+
+      <h2 class="manifesto__text">
+        <span class="reveal-word">We</span>
+        <span class="reveal-word">don't</span>
+        <span class="reveal-word">design</span>
+        <span class="reveal-word">clothes.</span>
+        <br />
+        <span class="reveal-word">We</span>
+        <span class="reveal-word">design</span>
+        <span class="reveal-word italic">silhouettes</span>
+        <span class="reveal-word">that</span>
+        <span class="reveal-word">move</span>
+        <span class="reveal-word">through</span>
+        <span class="reveal-word">cities</span>
+        <span class="reveal-word">at</span>
+        <span class="reveal-word">3AM —</span>
+        <br />
+        <span class="reveal-word">a</span>
+        <span class="reveal-word">language</span>
+        <span class="reveal-word">stitched</span>
+        <span class="reveal-word">in</span>
+        <span class="reveal-word outline">shadow,</span>
+        <span class="reveal-word">cut</span>
+        <span class="reveal-word">in</span>
+        <span class="reveal-word">light.</span>
+      </h2>
+
+      <div class="manifesto__foot">
+        <div>
+          <em>EST. 2021</em>
+          <p>From a single studio in old Delhi to capsule drops shipping to 38 cities. No seasons. Only moods.</p>
+        </div>
+        <div>
+          <em>METHOD</em>
+          <p>Hand-finished. Stone-washed. Burned at the edges. Every piece carries a serial — a memory in cotton.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- THE DROP — pinned horizontal -->
+    <!-- ============================================== -->
+    <section class="drop" id="drop">
+      <div class="drop__intro">
+        <div class="drop__label"><span class="dot"></span><em>02 / THE DROP</em></div>
+        <h2 class="drop__title">
+          <span>FOUR</span>
+          <span class="outline">PIECES.</span>
+          <span>ONE</span>
+          <span>NIGHT.</span>
+        </h2>
+        <p class="drop__lede">
+          A capsule of four — engineered from heavy Japanese cotton,
+          stone-finished leather and recycled nylon. Each piece numbered. Each
+          piece final.
+        </p>
+      </div>
+
+      <div class="drop__pin">
+        <div class="drop__track" id="dropTrack">
+          <article class="card" data-cursor="hover" data-cursor-label="View">
+            <div class="card__media">
+              <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1400&q=80" alt="" />
+            </div>
+            <div class="card__meta">
+              <em>01 / OUTER</em>
+              <h3>The Midnight Shell</h3>
+              <span>€ 420</span>
+            </div>
+          </article>
+
+          <article class="card" data-cursor="hover" data-cursor-label="View">
+            <div class="card__media">
+              <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1400&q=80" alt="" />
+            </div>
+            <div class="card__meta">
+              <em>02 / KNIT</em>
+              <h3>Static Heavyweight</h3>
+              <span>€ 280</span>
+            </div>
+          </article>
+
+          <article class="card" data-cursor="hover" data-cursor-label="View">
+            <div class="card__media">
+              <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1400&q=80" alt="" />
+            </div>
+            <div class="card__meta">
+              <em>03 / PANT</em>
+              <h3>Cargo Noir 02</h3>
+              <span>€ 320</span>
+            </div>
+          </article>
+
+          <article class="card" data-cursor="hover" data-cursor-label="View">
+            <div class="card__media">
+              <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1400&q=80" alt="" />
+            </div>
+            <div class="card__meta">
+              <em>04 / BOOT</em>
+              <h3>Asphalt Derby</h3>
+              <span>€ 510</span>
+            </div>
+          </article>
+
+          <article class="card card--end" data-cursor="hover" data-cursor-label="Shop">
+            <div class="card__end">
+              <em>FULL DROP</em>
+              <h3>Enter<br />the Vault.</h3>
+              <span class="card__arrow">→</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- BIG QUOTE -->
+    <!-- ============================================== -->
+    <section class="quote">
+      <p class="quote__text">
+        <span class="reveal-word">"The</span>
+        <span class="reveal-word">city</span>
+        <span class="reveal-word">is</span>
+        <span class="reveal-word italic">our</span>
+        <span class="reveal-word italic">runway.</span>
+        <span class="reveal-word">The</span>
+        <span class="reveal-word">night</span>
+        <span class="reveal-word">is</span>
+        <span class="reveal-word">our</span>
+        <span class="reveal-word">studio."</span>
+      </p>
+      <span class="quote__cite">— A. SINGH, FOUNDER</span>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- LOOKBOOK -->
+    <!-- ============================================== -->
+    <section class="lookbook" id="lookbook">
+      <div class="lookbook__head">
+        <div class="lookbook__label"><span class="dot"></span><em>03 / LOOKBOOK — FILMED IN ONE NIGHT</em></div>
+        <h2 class="lookbook__title">
+          <span>VIBE</span>
+          <span class="outline">TAPE.</span>
+        </h2>
+      </div>
+
+      <div class="lookbook__grid">
+        <figure class="vid vid--big" data-cursor="hover" data-cursor-label="Play">
+          <div class="vid__media" data-parallax="0.15">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1800&q=80" alt="" />
+            <div class="vid__play">▶</div>
+          </div>
+          <figcaption>
+            <em>FILM 01</em><span>2:14 · Rooftop, Mumbai</span>
+          </figcaption>
+        </figure>
+
+        <figure class="vid" data-cursor="hover" data-cursor-label="Play">
+          <div class="vid__media" data-parallax="0.1">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80" alt="" />
+            <div class="vid__play">▶</div>
+          </div>
+          <figcaption>
+            <em>FILM 02</em><span>0:47 · Tunnel, Berlin</span>
+          </figcaption>
+        </figure>
+
+        <figure class="vid" data-cursor="hover" data-cursor-label="Play">
+          <div class="vid__media" data-parallax="0.18">
+            <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1400&q=80" alt="" />
+            <div class="vid__play">▶</div>
+          </div>
+          <figcaption>
+            <em>FILM 03</em><span>1:08 · Alley, Tokyo</span>
+          </figcaption>
+        </figure>
+
+        <figure class="vid vid--wide" data-cursor="hover" data-cursor-label="Play">
+          <div class="vid__media" data-parallax="0.22">
+            <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=2000&q=80" alt="" />
+            <div class="vid__play">▶</div>
+          </div>
+          <figcaption>
+            <em>FILM 04</em><span>3:31 · Highway, Delhi</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- USP — AI STYLE ASSISTANT -->
+    <!-- ============================================== -->
+    <section class="assistant" id="assistant">
+      <div class="assistant__inner">
+        <div class="assistant__left">
+          <div class="assistant__label"><span class="dot pulse"></span><em>04 / NEW — AI STYLE ASSISTANT</em></div>
+          <h2 class="assistant__title">
+            <span>A</span> <span class="italic">stylist</span><br />
+            <span>that</span> <span class="outline">never</span><br />
+            <span>sleeps.</span>
+          </h2>
+          <p class="assistant__copy">
+            Trained on twenty years of street, runway and after-hours archives.
+            Drop a mood, a city, a weather — and the studio answers back in
+            silhouettes. Built into every Singh Studios drop. Free, forever.
+          </p>
+          <ul class="assistant__features">
+            <li><em>01</em><span>Build a fit from a single photo.</span></li>
+            <li><em>02</em><span>Read your wardrobe. Suggest the gap.</span></li>
+            <li><em>03</em><span>Drop alerts tuned to your silhouette.</span></li>
+          </ul>
+          <button class="assistant__cta" data-cursor="hover">
+            <span>Join the early access</span><em>→</em>
+          </button>
+        </div>
+
+        <div class="assistant__right">
+          <div class="chat" data-parallax="0.08">
+            <div class="chat__head">
+              <span class="chat__dot"></span>
+              <span class="chat__dot"></span>
+              <span class="chat__dot"></span>
+              <span class="chat__title">SINGH / AI · STYLE SESSION</span>
+            </div>
+            <div class="chat__body">
+              <div class="msg msg--user">
+                <p>berlin. 4am. raining. need a fit.</p>
+              </div>
+              <div class="msg msg--ai">
+                <p>Got you. Heavy shell + cargo noir + asphalt derby. Layer the static knit underneath. <em>Drop 04, three pieces, all in stock.</em></p>
+                <div class="msg__chips">
+                  <span>Shell · L</span><span>Cargo · 32</span><span>Derby · 43</span>
+                </div>
+              </div>
+              <div class="msg msg--user">
+                <p>swap the knit for something lighter.</p>
+              </div>
+              <div class="msg msg--ai typing">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- BIG OUTRO TYPE -->
+    <!-- ============================================== -->
+    <section class="outro">
+      <h2 class="outro__text">
+        <span class="reveal-word">SINGH</span>
+        <span class="reveal-word outline">/</span>
+        <span class="reveal-word">STUDIOS</span>
+      </h2>
+      <p class="outro__sub">Drop 04 lands 06 / 06 / 26 · 23:59 CET</p>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- FOOTER -->
+    <!-- ============================================== -->
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <span>SINGH</span><i>/</i><span>STUDIOS</span>
+        </div>
+        <p class="footer__news">
+          Get the Vault key. One mail every drop. Nothing else.
+        </p>
+        <form class="footer__form" onsubmit="event.preventDefault();">
+          <input type="email" placeholder="your @ email" />
+          <button data-cursor="hover">Subscribe →</button>
+        </form>
+      </div>
+
+      <div class="footer__cols">
+        <div>
+          <em>STUDIO</em>
+          <a href="#" data-cursor="hover">Manifesto</a>
+          <a href="#" data-cursor="hover">Archive</a>
+          <a href="#" data-cursor="hover">Press</a>
+          <a href="#" data-cursor="hover">Careers</a>
+        </div>
+        <div>
+          <em>SHOP</em>
+          <a href="#" data-cursor="hover">Drop 04</a>
+          <a href="#" data-cursor="hover">Vault</a>
+          <a href="#" data-cursor="hover">AI Stylist</a>
+          <a href="#" data-cursor="hover">Stockists</a>
+        </div>
+        <div>
+          <em>FOLLOW</em>
+          <a href="#" data-cursor="hover">Instagram</a>
+          <a href="#" data-cursor="hover">TikTok</a>
+          <a href="#" data-cursor="hover">YouTube</a>
+          <a href="#" data-cursor="hover">Are.na</a>
+        </div>
+        <div>
+          <em>LEGAL</em>
+          <a href="#" data-cursor="hover">Imprint</a>
+          <a href="#" data-cursor="hover">Privacy</a>
+          <a href="#" data-cursor="hover">Returns</a>
+          <a href="#" data-cursor="hover">Cookies</a>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 SINGH STUDIOS · ALL SILENCE RESERVED.</span>
+        <span>Built by night. Shipped from Delhi.</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ===== Libraries via CDN ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>

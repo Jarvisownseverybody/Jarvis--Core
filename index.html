@@ -2,86 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
-  <title>SINGH STUDIOS — Wear the Silence</title>
-  <meta name="description" content="Singh Studios — cinematic streetwear from the edge of the night. A new drop, a new language." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#050505" />
+  <title>SINGH / STUDIOS — Wear the Silence · DROP 04</title>
+  <meta name="description" content="Singh Studios — cinematic streetwear from the edge of the night. Drop 04, lands 06/06/26." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap"
     rel="stylesheet"
   />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="is-loading">
-  <!-- ===== Custom Cursor ===== -->
+  <!-- Custom Cursor -->
   <div class="cursor" aria-hidden="true">
-    <div class="cursor__dot"></div>
     <div class="cursor__ring"></div>
+    <div class="cursor__dot"></div>
     <span class="cursor__label"></span>
   </div>
 
-  <!-- ===== Grain Overlay ===== -->
+  <!-- Grain + Vignette + Scanlines -->
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
 
-  <!-- ===== Loader ===== -->
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress"><span></span></div>
+
+  <!-- Loader -->
   <div class="loader" id="loader">
-    <div class="loader__counter"><span id="loaderCount">0</span><span class="loader__pct">%</span></div>
-    <div class="loader__bar"><span></span></div>
-    <div class="loader__brand">SINGH / STUDIOS</div>
+    <div class="loader__top">
+      <span class="loader__brand">SINGH / STUDIOS</span>
+      <span class="loader__ver">v.04 / SS26</span>
+    </div>
+    <div class="loader__center">
+      <h1 class="loader__title">
+        <span class="loader__title-line"><span>WEAR</span></span>
+        <span class="loader__title-line"><span>THE</span></span>
+        <span class="loader__title-line"><span class="loader__acid">SILENCE</span></span>
+      </h1>
+    </div>
+    <div class="loader__bottom">
+      <div class="loader__bar"><span></span></div>
+      <div class="loader__row">
+        <span class="loader__count"><em id="loaderCount">0</em>%</span>
+        <span class="loader__status" id="loaderStatus">Loading the night —</span>
+      </div>
+    </div>
   </div>
 
-  <!-- ===== Header ===== -->
-  <header class="nav" data-cursor-stick>
-    <a href="#" class="nav__logo" data-cursor="hover">
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu__head">
+      <span>MENU</span>
+      <button class="mobile-menu__close" aria-label="Close menu">CLOSE ✕</button>
+    </div>
+    <nav class="mobile-menu__nav">
+      <a href="#manifesto"><em>01</em><span>Manifesto</span></a>
+      <a href="#drop"><em>02</em><span>The Drop</span></a>
+      <a href="#lookbook"><em>03</em><span>Lookbook</span></a>
+      <a href="#assistant"><em>04</em><span>AI Stylist</span></a>
+      <a href="#stats"><em>05</em><span>Numbers</span></a>
+    </nav>
+    <div class="mobile-menu__foot">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">YouTube</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__logo" data-cursor="hover">
+      <span class="nav__logo-mark">▲</span>
       <span>SINGH</span><i>/</i><span>STUDIOS</span>
     </a>
     <nav class="nav__links">
-      <a href="#manifesto" data-cursor="hover">Manifesto</a>
-      <a href="#drop" data-cursor="hover">The Drop</a>
-      <a href="#lookbook" data-cursor="hover">Lookbook</a>
-      <a href="#assistant" data-cursor="hover">AI Stylist</a>
+      <a href="#manifesto" data-cursor="hover"><em>01</em>Manifesto</a>
+      <a href="#drop" data-cursor="hover"><em>02</em>Drop</a>
+      <a href="#lookbook" data-cursor="hover"><em>03</em>Lookbook</a>
+      <a href="#assistant" data-cursor="hover"><em>04</em>AI</a>
     </nav>
-    <button class="nav__cta" data-cursor="hover">
-      <span>Enter the Vault</span>
-      <em>→</em>
-    </button>
+    <div class="nav__right">
+      <a href="#assistant" class="nav__cta" data-magnetic data-cursor="hover">
+        <span class="nav__cta-dot"></span>
+        <span>Enter the Vault</span>
+      </a>
+      <button class="nav__burger" id="navBurger" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
   </header>
 
-  <!-- ===== Smooth Scroll Wrapper ===== -->
+  <!-- Section index sidebar (desktop) -->
+  <aside class="section-index" aria-hidden="true">
+    <span class="section-index__label">SECTION</span>
+    <span class="section-index__num" id="sectionNum">00</span>
+    <span class="section-index__name" id="sectionName">— LANDING</span>
+  </aside>
+
   <main id="smooth-content">
 
     <!-- ============================================== -->
     <!-- HERO -->
     <!-- ============================================== -->
-    <section class="hero" id="hero">
+    <section class="hero" id="hero" data-section="00" data-section-name="— LANDING">
       <div class="hero__bg">
         <img
-          src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2400&q=80"
-          alt=""
-          class="hero__img"
-          data-parallax="0.25"
+          src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2400&q=85"
+          alt="" class="hero__img" data-parallax="0.3"
         />
         <div class="hero__overlay"></div>
+        <div class="hero__noise"></div>
       </div>
 
       <div class="hero__meta hero__meta--tl">
-        <span class="dot"></span>
-        <span>NIGHT / 04 — VOL. I</span>
+        <span class="dot pulse acid"></span>
+        <span>LIVE / NIGHT 04 — VOL. I</span>
       </div>
       <div class="hero__meta hero__meta--tr">
-        <span>NEW DELHI · BERLIN · TOKYO</span>
+        <span>NEW DELHI · 28°C · 02:14 LOCAL</span>
       </div>
 
       <h1 class="hero__title">
         <span class="line"><span class="word">WEAR</span></span>
-        <span class="line"><span class="word">THE</span></span>
-        <span class="line outline"><span class="word">SILENCE</span></span>
+        <span class="line"><span class="word">THE</span><span class="word word--slash">/</span></span>
+        <span class="line"><span class="word word--outline">SILENCE</span></span>
       </h1>
+
+      <div class="hero__strip">
+        <div class="hero__strip-inner" data-marquee>
+          <span>DROP 04</span><i>✦</i>
+          <span>SS / 2026</span><i>✦</i>
+          <span>WEAR THE SILENCE</span><i>✦</i>
+          <span>MADE BY NIGHT</span><i>✦</i>
+          <span>DROP 04</span><i>✦</i>
+          <span>SS / 2026</span><i>✦</i>
+          <span>WEAR THE SILENCE</span><i>✦</i>
+          <span>MADE BY NIGHT</span><i>✦</i>
+        </div>
+      </div>
 
       <div class="hero__sub">
         <p>
@@ -89,160 +151,192 @@
           Built for the ones who move between cities, between hours,
           between worlds.
         </p>
-        <a href="#manifesto" class="hero__scroll" data-cursor="hover">
-          <span class="hero__scroll-line"></span>
-          <em>SCROLL — DROP 04</em>
+        <a href="#manifesto" class="hero__scroll" data-cursor="hover" data-magnetic>
+          <span class="hero__scroll-circle">
+            <em>↓</em>
+          </span>
+          <span class="hero__scroll-text">SCROLL<br /><i>DROP 04</i></span>
         </a>
       </div>
 
       <div class="hero__counter">
         <span class="hero__counter-num">04</span>
-        <span class="hero__counter-lbl">DROP / SS26</span>
+        <span class="hero__counter-lbl">/ SS26</span>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- MARQUEE -->
+    <!-- TICKER strip with embedded acid dots -->
     <!-- ============================================== -->
-    <section class="marquee" aria-hidden="true">
-      <div class="marquee__track" data-marquee>
-        <span>SINGH STUDIOS</span><i>✦</i>
-        <span>DROP 04</span><i>✦</i>
-        <span>WEAR THE SILENCE</span><i>✦</i>
-        <span>SS / 2026</span><i>✦</i>
-        <span>MADE BY NIGHT</span><i>✦</i>
-        <span>SINGH STUDIOS</span><i>✦</i>
-        <span>DROP 04</span><i>✦</i>
-        <span>WEAR THE SILENCE</span><i>✦</i>
-        <span>SS / 2026</span><i>✦</i>
-        <span>MADE BY NIGHT</span><i>✦</i>
+    <section class="ticker" aria-hidden="true">
+      <div class="ticker__track" data-marquee>
+        <span>WEAR THE SILENCE</span><i class="acid-dot"></i>
+        <span>SINGH / STUDIOS</span><i class="acid-dot"></i>
+        <span>SHIPPED FROM DELHI</span><i class="acid-dot"></i>
+        <span>DROP 04 — 06.06.26</span><i class="acid-dot"></i>
+        <span>WEAR THE SILENCE</span><i class="acid-dot"></i>
+        <span>SINGH / STUDIOS</span><i class="acid-dot"></i>
+        <span>SHIPPED FROM DELHI</span><i class="acid-dot"></i>
+        <span>DROP 04 — 06.06.26</span><i class="acid-dot"></i>
       </div>
     </section>
 
     <!-- ============================================== -->
     <!-- MANIFESTO -->
     <!-- ============================================== -->
-    <section class="manifesto" id="manifesto">
-      <div class="manifesto__label">
-        <span class="dot"></span><em>01 / MANIFESTO</em>
-      </div>
-
-      <h2 class="manifesto__text">
-        <span class="reveal-word">We</span>
-        <span class="reveal-word">don't</span>
-        <span class="reveal-word">design</span>
-        <span class="reveal-word">clothes.</span>
-        <br />
-        <span class="reveal-word">We</span>
-        <span class="reveal-word">design</span>
-        <span class="reveal-word italic">silhouettes</span>
-        <span class="reveal-word">that</span>
-        <span class="reveal-word">move</span>
-        <span class="reveal-word">through</span>
-        <span class="reveal-word">cities</span>
-        <span class="reveal-word">at</span>
-        <span class="reveal-word">3AM —</span>
-        <br />
-        <span class="reveal-word">a</span>
-        <span class="reveal-word">language</span>
-        <span class="reveal-word">stitched</span>
-        <span class="reveal-word">in</span>
-        <span class="reveal-word outline">shadow,</span>
-        <span class="reveal-word">cut</span>
-        <span class="reveal-word">in</span>
-        <span class="reveal-word">light.</span>
-      </h2>
-
-      <div class="manifesto__foot">
-        <div>
-          <em>EST. 2021</em>
-          <p>From a single studio in old Delhi to capsule drops shipping to 38 cities. No seasons. Only moods.</p>
+    <section class="manifesto" id="manifesto" data-section="01" data-section-name="— MANIFESTO">
+      <div class="container">
+        <div class="section-label">
+          <span class="dot acid"></span><em>01 / MANIFESTO</em><span class="line-h"></span>
         </div>
-        <div>
-          <em>METHOD</em>
-          <p>Hand-finished. Stone-washed. Burned at the edges. Every piece carries a serial — a memory in cotton.</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============================================== -->
-    <!-- THE DROP — pinned horizontal -->
-    <!-- ============================================== -->
-    <section class="drop" id="drop">
-      <div class="drop__intro">
-        <div class="drop__label"><span class="dot"></span><em>02 / THE DROP</em></div>
-        <h2 class="drop__title">
-          <span>FOUR</span>
-          <span class="outline">PIECES.</span>
-          <span>ONE</span>
-          <span>NIGHT.</span>
+        <h2 class="manifesto__text">
+          <span class="reveal-word">We</span>
+          <span class="reveal-word">don't</span>
+          <span class="reveal-word">design</span>
+          <span class="reveal-word">clothes.</span>
+          <br />
+          <span class="reveal-word">We</span>
+          <span class="reveal-word">design</span>
+          <span class="reveal-word italic">silhouettes</span>
+          <span class="reveal-word">that</span>
+          <span class="reveal-word">move</span>
+          <span class="reveal-word">through</span>
+          <span class="reveal-word">cities</span>
+          <span class="reveal-word">at</span>
+          <span class="reveal-word acid">3AM</span>
+          <span class="reveal-word">—</span>
+          <br />
+          <span class="reveal-word">a</span>
+          <span class="reveal-word">language</span>
+          <span class="reveal-word">stitched</span>
+          <span class="reveal-word">in</span>
+          <span class="reveal-word outline">shadow,</span>
+          <span class="reveal-word">cut</span>
+          <span class="reveal-word">in</span>
+          <span class="reveal-word">light.</span>
         </h2>
-        <p class="drop__lede">
-          A capsule of four — engineered from heavy Japanese cotton,
-          stone-finished leather and recycled nylon. Each piece numbered. Each
-          piece final.
-        </p>
-      </div>
 
-      <div class="drop__pin">
-        <div class="drop__track" id="dropTrack">
-          <article class="card" data-cursor="hover" data-cursor-label="View">
-            <div class="card__media">
-              <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1400&q=80" alt="" />
-            </div>
-            <div class="card__meta">
-              <em>01 / OUTER</em>
-              <h3>The Midnight Shell</h3>
-              <span>€ 420</span>
-            </div>
-          </article>
-
-          <article class="card" data-cursor="hover" data-cursor-label="View">
-            <div class="card__media">
-              <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1400&q=80" alt="" />
-            </div>
-            <div class="card__meta">
-              <em>02 / KNIT</em>
-              <h3>Static Heavyweight</h3>
-              <span>€ 280</span>
-            </div>
-          </article>
-
-          <article class="card" data-cursor="hover" data-cursor-label="View">
-            <div class="card__media">
-              <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1400&q=80" alt="" />
-            </div>
-            <div class="card__meta">
-              <em>03 / PANT</em>
-              <h3>Cargo Noir 02</h3>
-              <span>€ 320</span>
-            </div>
-          </article>
-
-          <article class="card" data-cursor="hover" data-cursor-label="View">
-            <div class="card__media">
-              <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1400&q=80" alt="" />
-            </div>
-            <div class="card__meta">
-              <em>04 / BOOT</em>
-              <h3>Asphalt Derby</h3>
-              <span>€ 510</span>
-            </div>
-          </article>
-
-          <article class="card card--end" data-cursor="hover" data-cursor-label="Shop">
-            <div class="card__end">
-              <em>FULL DROP</em>
-              <h3>Enter<br />the Vault.</h3>
-              <span class="card__arrow">→</span>
-            </div>
-          </article>
+        <div class="manifesto__foot">
+          <div>
+            <em>EST. 2021</em>
+            <p>From a single studio in old Delhi to capsule drops shipping to 38 cities. No seasons. Only moods.</p>
+          </div>
+          <div>
+            <em>METHOD</em>
+            <p>Hand-finished. Stone-washed. Burned at the edges. Every piece carries a serial — a memory in cotton.</p>
+          </div>
+          <div>
+            <em>FOR</em>
+            <p>The night runners. The 4AM thinkers. The ones who treat the city as a wardrobe.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- BIG QUOTE -->
+    <!-- STACKING SECTIONS — sticky scroll showcase -->
+    <!-- ============================================== -->
+    <section class="stack" id="drop" data-section="02" data-section-name="— THE DROP">
+      <div class="stack__intro">
+        <div class="container">
+          <div class="section-label">
+            <span class="dot acid"></span><em>02 / THE DROP</em><span class="line-h"></span>
+          </div>
+          <h2 class="stack__title">
+            <span class="reveal-word">FOUR</span>
+            <span class="reveal-word outline">PIECES.</span>
+            <span class="reveal-word">ONE</span>
+            <span class="reveal-word acid">NIGHT.</span>
+          </h2>
+          <p class="stack__lede">
+            A capsule of four — engineered from heavy Japanese cotton,
+            stone-finished leather and recycled nylon. Each piece numbered.
+            Each piece final. Each piece a small rebellion.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sticky stacking panels -->
+      <div class="panel" data-panel="1">
+        <div class="panel__media">
+          <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1800&q=85" alt="" />
+        </div>
+        <div class="panel__content">
+          <span class="panel__num">/ 01</span>
+          <h3 class="panel__title">The Midnight<br /><span class="acid">Shell</span></h3>
+          <p>Heavyweight recycled nylon. Asymmetric zip. Magnetic storm flap. Cut to move at 60km/h on a midnight scooter.</p>
+          <div class="panel__meta">
+            <span><em>MATERIAL</em>Recycled Nylon 240gsm</span>
+            <span><em>FINISH</em>Stone-washed matte</span>
+            <span><em>PRICE</em>€ 420</span>
+          </div>
+          <button class="btn-acid" data-cursor="hover" data-cursor-label="Drop in cart" data-magnetic>
+            <span>Add to Vault</span><em>→</em>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel panel--alt" data-panel="2">
+        <div class="panel__media">
+          <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1800&q=85" alt="" />
+        </div>
+        <div class="panel__content">
+          <span class="panel__num">/ 02</span>
+          <h3 class="panel__title">Static<br /><span class="acid">Heavyweight</span></h3>
+          <p>Loop-knit cotton, 480 grams. Brushed inside. Carries the weight of a sweater that's already seen six winters.</p>
+          <div class="panel__meta">
+            <span><em>MATERIAL</em>Japanese Loop Cotton</span>
+            <span><em>FINISH</em>Hand-brushed</span>
+            <span><em>PRICE</em>€ 280</span>
+          </div>
+          <button class="btn-acid" data-cursor="hover" data-cursor-label="Drop in cart" data-magnetic>
+            <span>Add to Vault</span><em>→</em>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="3">
+        <div class="panel__media">
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1800&q=85" alt="" />
+        </div>
+        <div class="panel__content">
+          <span class="panel__num">/ 03</span>
+          <h3 class="panel__title">Cargo<br /><span class="acid">Noir 02</span></h3>
+          <p>Eight pockets, four of them hidden. Reinforced knee. Magnetic cuff. The pant for everything you can't explain.</p>
+          <div class="panel__meta">
+            <span><em>MATERIAL</em>Waxed canvas</span>
+            <span><em>FINISH</em>Reinforced stitching</span>
+            <span><em>PRICE</em>€ 320</span>
+          </div>
+          <button class="btn-acid" data-cursor="hover" data-cursor-label="Drop in cart" data-magnetic>
+            <span>Add to Vault</span><em>→</em>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel panel--alt" data-panel="4">
+        <div class="panel__media">
+          <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1800&q=85" alt="" />
+        </div>
+        <div class="panel__content">
+          <span class="panel__num">/ 04</span>
+          <h3 class="panel__title">Asphalt<br /><span class="acid">Derby</span></h3>
+          <p>Italian box calf on a rubber lugged sole. A formal boot that drinks rain. Re-soleable for life.</p>
+          <div class="panel__meta">
+            <span><em>MATERIAL</em>Italian box calf</span>
+            <span><em>FINISH</em>Hand-polished</span>
+            <span><em>PRICE</em>€ 510</span>
+          </div>
+          <button class="btn-acid" data-cursor="hover" data-cursor-label="Drop in cart" data-magnetic>
+            <span>Add to Vault</span><em>→</em>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- BIG QUOTE — distort hover -->
     <!-- ============================================== -->
     <section class="quote">
       <p class="quote__text">
@@ -251,81 +345,129 @@
         <span class="reveal-word">is</span>
         <span class="reveal-word italic">our</span>
         <span class="reveal-word italic">runway.</span>
+        <br />
         <span class="reveal-word">The</span>
-        <span class="reveal-word">night</span>
+        <span class="reveal-word acid">night</span>
         <span class="reveal-word">is</span>
         <span class="reveal-word">our</span>
         <span class="reveal-word">studio."</span>
       </p>
-      <span class="quote__cite">— A. SINGH, FOUNDER</span>
+      <div class="quote__cite">
+        <span class="line-h"></span>
+        <em>A. SINGH — FOUNDER, NEW DELHI</em>
+      </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- LOOKBOOK -->
+    <!-- LOOKBOOK — bento grid -->
     <!-- ============================================== -->
-    <section class="lookbook" id="lookbook">
-      <div class="lookbook__head">
-        <div class="lookbook__label"><span class="dot"></span><em>03 / LOOKBOOK — FILMED IN ONE NIGHT</em></div>
+    <section class="lookbook" id="lookbook" data-section="03" data-section-name="— LOOKBOOK">
+      <div class="container">
+        <div class="section-label">
+          <span class="dot acid"></span><em>03 / LOOKBOOK · FILMED IN ONE NIGHT</em><span class="line-h"></span>
+        </div>
         <h2 class="lookbook__title">
-          <span>VIBE</span>
-          <span class="outline">TAPE.</span>
+          <span class="reveal-word">VIBE</span>
+          <span class="reveal-word outline">TAPE</span>
+          <span class="reveal-word acid">/04</span>
         </h2>
       </div>
 
       <div class="lookbook__grid">
         <figure class="vid vid--big" data-cursor="hover" data-cursor-label="Play">
           <div class="vid__media" data-parallax="0.15">
-            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1800&q=80" alt="" />
-            <div class="vid__play">▶</div>
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1800&q=85" alt="" />
           </div>
+          <div class="vid__play"><span>▶</span></div>
           <figcaption>
             <em>FILM 01</em><span>2:14 · Rooftop, Mumbai</span>
           </figcaption>
+          <div class="vid__corner">01</div>
         </figure>
 
         <figure class="vid" data-cursor="hover" data-cursor-label="Play">
           <div class="vid__media" data-parallax="0.1">
-            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80" alt="" />
-            <div class="vid__play">▶</div>
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85" alt="" />
           </div>
+          <div class="vid__play"><span>▶</span></div>
           <figcaption>
             <em>FILM 02</em><span>0:47 · Tunnel, Berlin</span>
           </figcaption>
+          <div class="vid__corner">02</div>
         </figure>
 
         <figure class="vid" data-cursor="hover" data-cursor-label="Play">
           <div class="vid__media" data-parallax="0.18">
-            <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1400&q=80" alt="" />
-            <div class="vid__play">▶</div>
+            <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1400&q=85" alt="" />
           </div>
+          <div class="vid__play"><span>▶</span></div>
           <figcaption>
             <em>FILM 03</em><span>1:08 · Alley, Tokyo</span>
           </figcaption>
+          <div class="vid__corner">03</div>
         </figure>
 
         <figure class="vid vid--wide" data-cursor="hover" data-cursor-label="Play">
           <div class="vid__media" data-parallax="0.22">
-            <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=2000&q=80" alt="" />
-            <div class="vid__play">▶</div>
+            <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=2400&q=85" alt="" />
           </div>
+          <div class="vid__play"><span>▶</span></div>
           <figcaption>
-            <em>FILM 04</em><span>3:31 · Highway, Delhi</span>
+            <em>FILM 04 · LONG-FORM</em><span>3:31 · Highway, Delhi</span>
           </figcaption>
+          <div class="vid__corner">04</div>
         </figure>
       </div>
     </section>
 
     <!-- ============================================== -->
-    <!-- USP — AI STYLE ASSISTANT -->
+    <!-- STATS / NUMBERS counter -->
     <!-- ============================================== -->
-    <section class="assistant" id="assistant">
-      <div class="assistant__inner">
+    <section class="stats" id="stats">
+      <div class="container">
+        <div class="section-label">
+          <span class="dot acid"></span><em>BY THE NUMBERS</em><span class="line-h"></span>
+        </div>
+        <div class="stats__grid">
+          <div class="stat">
+            <span class="stat__num" data-count="38">0</span>
+            <span class="stat__plus">+</span>
+            <em>CITIES SHIPPED</em>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="04">0</span>
+            <em>DROPS LAUNCHED</em>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="12">0</span>
+            <em>HOURS / PIECE</em>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="0">0</span>
+            <em>COMPROMISES</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- AI STYLE ASSISTANT -->
+    <!-- ============================================== -->
+    <section class="assistant" id="assistant" data-section="04" data-section-name="— AI STYLIST">
+      <div class="assistant__bg"></div>
+      <div class="container assistant__inner">
         <div class="assistant__left">
-          <div class="assistant__label"><span class="dot pulse"></span><em>04 / NEW — AI STYLE ASSISTANT</em></div>
+          <div class="section-label">
+            <span class="dot acid pulse"></span><em>04 / NEW — AI STYLE ASSISTANT</em><span class="line-h"></span>
+          </div>
           <h2 class="assistant__title">
-            <span>A</span> <span class="italic">stylist</span><br />
-            <span>that</span> <span class="outline">never</span><br />
-            <span>sleeps.</span>
+            <span class="reveal-word">A</span>
+            <span class="reveal-word italic">stylist</span>
+            <br />
+            <span class="reveal-word">that</span>
+            <span class="reveal-word outline">never</span>
+            <br />
+            <span class="reveal-word acid">sleeps.</span>
           </h2>
           <p class="assistant__copy">
             Trained on twenty years of street, runway and after-hours archives.
@@ -337,31 +479,34 @@
             <li><em>02</em><span>Read your wardrobe. Suggest the gap.</span></li>
             <li><em>03</em><span>Drop alerts tuned to your silhouette.</span></li>
           </ul>
-          <button class="assistant__cta" data-cursor="hover">
+          <button class="btn-acid btn-acid--lg" data-cursor="hover" data-magnetic>
             <span>Join the early access</span><em>→</em>
           </button>
         </div>
 
         <div class="assistant__right">
-          <div class="chat" data-parallax="0.08">
+          <div class="chat" data-tilt>
             <div class="chat__head">
               <span class="chat__dot"></span>
               <span class="chat__dot"></span>
-              <span class="chat__dot"></span>
-              <span class="chat__title">SINGH / AI · STYLE SESSION</span>
+              <span class="chat__dot chat__dot--acid"></span>
+              <span class="chat__title">SINGH / AI · STYLE SESSION 0214</span>
             </div>
             <div class="chat__body">
               <div class="msg msg--user">
                 <p>berlin. 4am. raining. need a fit.</p>
+                <span class="msg__time">04:13</span>
               </div>
               <div class="msg msg--ai">
-                <p>Got you. Heavy shell + cargo noir + asphalt derby. Layer the static knit underneath. <em>Drop 04, three pieces, all in stock.</em></p>
+                <p>Got you. Heavy shell + cargo noir + asphalt derby. Layer the static knit underneath.</p>
+                <em>Drop 04, three pieces, all in stock.</em>
                 <div class="msg__chips">
                   <span>Shell · L</span><span>Cargo · 32</span><span>Derby · 43</span>
                 </div>
               </div>
               <div class="msg msg--user">
                 <p>swap the knit for something lighter.</p>
+                <span class="msg__time">04:14</span>
               </div>
               <div class="msg msg--ai typing">
                 <span></span><span></span><span></span>
@@ -373,73 +518,84 @@
     </section>
 
     <!-- ============================================== -->
-    <!-- BIG OUTRO TYPE -->
+    <!-- OUTRO -->
     <!-- ============================================== -->
     <section class="outro">
       <h2 class="outro__text">
         <span class="reveal-word">SINGH</span>
-        <span class="reveal-word outline">/</span>
+        <span class="reveal-word acid">/</span>
         <span class="reveal-word">STUDIOS</span>
       </h2>
-      <p class="outro__sub">Drop 04 lands 06 / 06 / 26 · 23:59 CET</p>
+      <div class="outro__date">
+        <span class="line-h"></span>
+        <em>DROP 04 LANDS 06.06.26 — 23:59 CET</em>
+        <span class="line-h"></span>
+      </div>
+      <button class="btn-acid btn-acid--lg" data-cursor="hover" data-magnetic>
+        <span>Set a reminder</span><em>→</em>
+      </button>
     </section>
 
-    <!-- ============================================== -->
-    <!-- FOOTER -->
-    <!-- ============================================== -->
+    <!-- Footer -->
     <footer class="footer">
-      <div class="footer__top">
-        <div class="footer__brand">
-          <span>SINGH</span><i>/</i><span>STUDIOS</span>
+      <div class="container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <span>SINGH</span><i>/</i><span>STUDIOS</span>
+            <small>EST. 2021 · NEW DELHI</small>
+          </div>
+          <div class="footer__news">
+            <em>GET THE VAULT KEY</em>
+            <p>One mail every drop. Nothing else.</p>
+            <form class="footer__form" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="your @ email" />
+              <button data-cursor="hover" data-magnetic>Subscribe →</button>
+            </form>
+          </div>
         </div>
-        <p class="footer__news">
-          Get the Vault key. One mail every drop. Nothing else.
-        </p>
-        <form class="footer__form" onsubmit="event.preventDefault();">
-          <input type="email" placeholder="your @ email" />
-          <button data-cursor="hover">Subscribe →</button>
-        </form>
-      </div>
 
-      <div class="footer__cols">
-        <div>
-          <em>STUDIO</em>
-          <a href="#" data-cursor="hover">Manifesto</a>
-          <a href="#" data-cursor="hover">Archive</a>
-          <a href="#" data-cursor="hover">Press</a>
-          <a href="#" data-cursor="hover">Careers</a>
+        <div class="footer__cols">
+          <div>
+            <em>STUDIO</em>
+            <a href="#" data-cursor="hover">Manifesto</a>
+            <a href="#" data-cursor="hover">Archive</a>
+            <a href="#" data-cursor="hover">Press</a>
+            <a href="#" data-cursor="hover">Careers</a>
+          </div>
+          <div>
+            <em>SHOP</em>
+            <a href="#" data-cursor="hover">Drop 04</a>
+            <a href="#" data-cursor="hover">Vault</a>
+            <a href="#" data-cursor="hover">AI Stylist</a>
+            <a href="#" data-cursor="hover">Stockists</a>
+          </div>
+          <div>
+            <em>FOLLOW</em>
+            <a href="#" data-cursor="hover">Instagram</a>
+            <a href="#" data-cursor="hover">TikTok</a>
+            <a href="#" data-cursor="hover">YouTube</a>
+            <a href="#" data-cursor="hover">Are.na</a>
+          </div>
+          <div>
+            <em>LEGAL</em>
+            <a href="#" data-cursor="hover">Imprint</a>
+            <a href="#" data-cursor="hover">Privacy</a>
+            <a href="#" data-cursor="hover">Returns</a>
+            <a href="#" data-cursor="hover">Cookies</a>
+          </div>
         </div>
-        <div>
-          <em>SHOP</em>
-          <a href="#" data-cursor="hover">Drop 04</a>
-          <a href="#" data-cursor="hover">Vault</a>
-          <a href="#" data-cursor="hover">AI Stylist</a>
-          <a href="#" data-cursor="hover">Stockists</a>
-        </div>
-        <div>
-          <em>FOLLOW</em>
-          <a href="#" data-cursor="hover">Instagram</a>
-          <a href="#" data-cursor="hover">TikTok</a>
-          <a href="#" data-cursor="hover">YouTube</a>
-          <a href="#" data-cursor="hover">Are.na</a>
-        </div>
-        <div>
-          <em>LEGAL</em>
-          <a href="#" data-cursor="hover">Imprint</a>
-          <a href="#" data-cursor="hover">Privacy</a>
-          <a href="#" data-cursor="hover">Returns</a>
-          <a href="#" data-cursor="hover">Cookies</a>
-        </div>
-      </div>
 
-      <div class="footer__bottom">
-        <span>© 2026 SINGH STUDIOS · ALL SILENCE RESERVED.</span>
-        <span>Built by night. Shipped from Delhi.</span>
+        <div class="footer__giant" aria-hidden="true">SINGH STUDIOS</div>
+
+        <div class="footer__bottom">
+          <span>© 2026 SINGH STUDIOS · ALL SILENCE RESERVED.</span>
+          <span>Built by night. Shipped from Delhi.</span>
+        </div>
       </div>
     </footer>
   </main>
 
-  <!-- ===== Libraries via CDN ===== -->
+  <!-- Libs -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>

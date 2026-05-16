@@ -5,9 +5,9 @@ import Hls from "hls.js";
 const HLS_SRC = "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
 const SOCIALS = [
   { label: "Instagram", href: "#" },
-  { label: "Pinterest", href: "#" },
   { label: "Substack", href: "#" },
-  { label: "Email", href: "mailto:hello@atlasandco.studio" },
+  { label: "Are.na", href: "#" },
+  { label: "Email", href: "mailto:hello@singhstudios.com" },
 ];
 
 export default function Footer() {
@@ -36,7 +36,7 @@ export default function Footer() {
     const ctx = gsap.context(() => {
       gsap.to(".marquee-track", {
         xPercent: -50,
-        duration: 40,
+        duration: 42,
         ease: "none",
         repeat: -1,
       });
@@ -45,81 +45,86 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer id="contact" className="relative bg-bg pt-16 md:pt-20 pb-8 md:pb-12 overflow-hidden">
-      {/* Background video */}
+    <footer id="contact" className="relative bg-bg pt-16 md:pt-24 pb-8 md:pb-12 overflow-hidden border-t border-stroke">
       <video
         ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 h-full w-full object-cover scale-y-[-1] opacity-60"
+        className="absolute inset-0 h-full w-full object-cover scale-y-[-1] opacity-50"
       />
-      <div className="absolute inset-0 bg-black/60" />
-      <div className="absolute inset-0 halftone opacity-[0.07] mix-blend-overlay" />
+      <div className="absolute inset-0 bg-black/70" />
+      <div className="absolute inset-0 grain opacity-[0.06] mix-blend-overlay" />
 
       <div className="relative z-10">
         {/* Marquee */}
-        <div ref={marqueeRef} className="overflow-hidden py-6 md:py-10 border-y border-stroke/60">
+        <div ref={marqueeRef} className="overflow-hidden py-6 md:py-10 border-y border-stroke">
           <div className="marquee-track flex whitespace-nowrap will-change-transform">
             {Array.from({ length: 10 }).map((_, i) => (
               <span
                 key={i}
-                className="inline-flex items-center text-5xl md:text-7xl lg:text-8xl font-display italic text-text-primary/80 px-8"
+                className="inline-flex items-center display-massive text-text-primary px-8"
+                style={{ fontSize: "clamp(48px, 9vw, 140px)" }}
               >
-                Building the future
-                <span className="mx-8 inline-block h-3 w-3 rounded-full accent-gradient align-middle" />
+                SINGH STUDIOS
+                <span className="mx-8 inline-block h-3 w-3 bg-text-primary align-middle" />
+                DROP 001
+                <span className="mx-8 inline-block h-3 w-3 bg-text-primary align-middle" />
               </span>
             ))}
           </div>
         </div>
 
         {/* CTA */}
-        <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16 pt-16 md:pt-24 pb-12 md:pb-20 text-center">
-          <p className="text-xs text-muted uppercase tracking-[0.3em] mb-6">
-            Stockists &amp; press
-          </p>
-          <h3 className="text-4xl md:text-6xl lg:text-7xl font-display text-text-primary leading-[1.05] mb-10">
-            Let's build something <span className="italic">timeless</span>.
-          </h3>
-
-          <a
-            href="mailto:hello@atlasandco.studio"
-            className="group relative inline-flex items-center rounded-full"
-          >
-            <span
-              className="pointer-events-none absolute -inset-[2px] rounded-full accent-gradient-animated opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            />
-            <span className="relative inline-flex items-center gap-3 rounded-full bg-text-primary text-bg text-sm px-8 py-4 transition-colors duration-300 group-hover:bg-bg group-hover:text-text-primary">
-              hello@atlasandco.studio
-              <span className="text-xs">↗</span>
-            </span>
-          </a>
-        </div>
-
-        {/* Footer bar */}
-        <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16 pt-8 border-t border-stroke/60 flex flex-col md:flex-row items-center justify-between gap-6 text-xs uppercase tracking-[0.25em] text-muted">
-          <div className="flex items-center gap-3">
-            <span className="relative inline-flex h-2.5 w-2.5">
-              <span className="absolute inset-0 rounded-full bg-emerald-400 animate-pulse-soft" />
-              <span className="absolute inset-0 rounded-full bg-emerald-400/70 blur-[3px]" />
-            </span>
-            <span>Available for stockists — SS '26</span>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 lg:px-16 pt-16 md:pt-24 pb-12 md:pb-20 grid grid-cols-12 gap-6 md:gap-10">
+          <div className="col-span-12 md:col-span-2 mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-muted">
+            CH. 06
+            <div className="h-px w-10 bg-stroke my-1" />
+            CONTACT
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6">
+          <div className="col-span-12 md:col-span-7">
+            <h3 className="display-massive text-text-primary leading-[0.92]" style={{ fontSize: "clamp(36px, 6vw, 96px)" }}>
+              Want in on <span className="font-display italic font-normal normal-case">drop 001?</span>
+            </h3>
+            <p className="mt-6 text-sm md:text-base text-muted max-w-md">
+              Reply to the next dispatch and you're in line. We ship until the count hits zero, then it's gone.
+            </p>
+
+            <a
+              href="mailto:hello@singhstudios.com"
+              className="group mt-8 inline-flex items-center gap-3 bg-text-primary text-bg mono text-xs uppercase tracking-[0.2em] px-7 py-4 hover:bg-text-primary/85 transition-colors"
+            >
+              hello@singhstudios.com
+              <span className="text-[10px]">↗</span>
+            </a>
+          </div>
+
+          <div className="col-span-12 md:col-span-3 md:text-right mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-muted flex flex-col gap-3">
+            <span className="text-text-primary">// elsewhere</span>
             {SOCIALS.map((s) => (
               <a
                 key={s.label}
                 href={s.href}
-                className="hover:text-text-primary transition-colors"
+                className="hover:text-text-primary transition-colors inline-flex md:justify-end items-center gap-2"
               >
-                {s.label}
+                {s.label} <span className="text-[9px]">→</span>
               </a>
             ))}
           </div>
+        </div>
 
-          <div>© 2026 Atlas &amp; Co.</div>
+        {/* Footer bar */}
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 lg:px-16 pt-6 border-t border-stroke flex flex-col md:flex-row items-center justify-between gap-4 mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-muted">
+          <div className="flex items-center gap-3">
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inset-0 rounded-full bg-emerald-400 animate-pulse-soft" />
+            </span>
+            <span>live // drop 001 open</span>
+          </div>
+          <div>SINGH STUDIOS — DROP 001 — MMXXVI</div>
+          <div>Designed in the back room.</div>
         </div>
       </div>
     </footer>

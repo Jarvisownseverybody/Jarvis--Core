@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 const STATS = [
-  { value: 12, suffix: "+", label: "Years crafting" },
-  { value: 40, suffix: "+", label: "Collections released" },
-  { value: 5000, suffix: "+", label: "Pieces hand-finished" },
+  { value: 6, suffix: "", label: "Years on the bench", code: "// 01" },
+  { value: 12, suffix: "", label: "Drops shipped", code: "// 02" },
+  { value: 144, suffix: "", label: "Pieces hand-finished", code: "// 03" },
 ];
 
 function Counter({ to, suffix }: { to: number; suffix: string }) {
@@ -14,7 +14,7 @@ function Counter({ to, suffix }: { to: number; suffix: string }) {
 
   useEffect(() => {
     if (!inView) return;
-    const dur = 1600;
+    const dur = 1700;
     const start = performance.now();
     let raf = 0;
     const tick = (t: number) => {
@@ -29,7 +29,7 @@ function Counter({ to, suffix }: { to: number; suffix: string }) {
 
   return (
     <span ref={ref} className="tabular-nums">
-      {n.toLocaleString()}
+      {String(n).padStart(2, "0").toLocaleString()}
       {suffix}
     </span>
   );
@@ -37,9 +37,9 @@ function Counter({ to, suffix }: { to: number; suffix: string }) {
 
 export default function Stats() {
   return (
-    <section className="bg-bg py-16 md:py-24">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+    <section className="bg-bg py-16 md:py-28 border-t border-stroke">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10 lg:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-3">
           {STATS.map((s, i) => (
             <motion.div
               key={s.label}
@@ -47,15 +47,21 @@ export default function Stats() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: i * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
               viewport={{ once: true, margin: "-80px" }}
-              className="relative p-8 md:p-10 rounded-3xl border border-stroke bg-surface/40 overflow-hidden"
+              className={`relative p-8 md:p-10 ${i === 0 ? "" : "md:border-l border-stroke"} ${i < STATS.length - 1 ? "border-b border-stroke md:border-b-0" : ""}`}
             >
-              <div className="pointer-events-none absolute -top-16 -right-16 h-44 w-44 rounded-full bg-[#4E85BF]/10 blur-3xl" />
-              <div className="text-6xl md:text-7xl lg:text-8xl font-display text-text-primary leading-none">
+              <div className="flex items-start justify-between mb-6">
+                <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted">
+                  {s.code}
+                </span>
+                <span className="mono text-[10px] uppercase tracking-[0.25em] text-muted">
+                  CH. 05
+                </span>
+              </div>
+              <div className="display-massive text-text-primary leading-none" style={{ fontSize: "clamp(72px, 11vw, 200px)" }}>
                 <Counter to={s.value} suffix={s.suffix} />
               </div>
-              <div className="mt-4 flex items-center gap-3">
-                <span className="w-6 h-px bg-stroke" />
-                <span className="text-xs uppercase tracking-[0.3em] text-muted">{s.label}</span>
+              <div className="mt-6 mono text-xs uppercase tracking-[0.2em] text-text-primary/85">
+                {s.label}
               </div>
             </motion.div>
           ))}

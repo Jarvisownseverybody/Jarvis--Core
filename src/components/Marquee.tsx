@@ -2,14 +2,14 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const ITEMS = [
-  "Milan",
-  "Tokyo",
-  "New York",
-  "Paris",
-  "Copenhagen",
-  "Seoul",
-  "London",
-  "Antwerp",
+  "MUMBAI",
+  "PARIS",
+  "TOKYO",
+  "NEW YORK",
+  "SEOUL",
+  "LONDON",
+  "ANTWERP",
+  "BERLIN",
 ];
 
 export default function Marquee() {
@@ -20,7 +20,7 @@ export default function Marquee() {
     const ctx = gsap.context(() => {
       gsap.to(".cities-track", {
         xPercent: -50,
-        duration: 35,
+        duration: 38,
         ease: "none",
         repeat: -1,
       });
@@ -31,7 +31,7 @@ export default function Marquee() {
   return (
     <section
       ref={ref}
-      className="relative bg-bg py-6 border-y border-stroke/60 overflow-hidden"
+      className="relative bg-bg py-4 md:py-5 border-y border-stroke overflow-hidden"
     >
       <div className="cities-track flex whitespace-nowrap will-change-transform">
         {Array.from({ length: 6 }).map((_, dup) => (
@@ -39,10 +39,10 @@ export default function Marquee() {
             {ITEMS.map((c) => (
               <span
                 key={c + dup}
-                className="inline-flex items-center text-xs uppercase tracking-[0.3em] text-muted px-8"
+                className="inline-flex items-center mono text-[11px] md:text-xs uppercase tracking-[0.3em] text-text-primary/80 px-8"
               >
                 {c}
-                <span className="ml-8 inline-block h-1 w-1 rounded-full bg-stroke" />
+                <span className="ml-8 inline-block h-1 w-1 bg-text-primary/50" />
               </span>
             ))}
           </div>

@@ -1,31 +1,37 @@
-# SINGH / STUDIOS — Cinematic Site
+# Atlas & Co. — Collection '26
 
-A high-end, dark-mode cinematic streetwear site built with vanilla HTML/CSS/JS, GSAP + ScrollTrigger and Lenis smooth scroll.
+A premium single-page site for a clothing brand, built with React + Vite + TypeScript + Tailwind + GSAP + Framer Motion + hls.js.
 
-## Run
-
-Just open `index.html` in a browser, or serve locally:
+## Run locally
 
 ```bash
-python3 -m http.server 8080
-# then visit http://localhost:8080
+npm install
+npm run dev          # http://localhost:5173
+npm run build        # production build → dist/
+npm run preview      # preview the production build
+```
+
+When developing locally, override the base URL so assets resolve from root:
+
+```bash
+VITE_BASE=/ npm run dev
+```
+
+## Deploy (GitHub Pages)
+
+A workflow in `.github/workflows/deploy.yml` builds and deploys to GitHub Pages on every push to `main` or `claude/premium-portfolio-site-osOyy`. Enable Pages in **Settings → Pages → Source: GitHub Actions** once. The site is published at:
+
+```
+https://<owner>.github.io/Jarvis--Core/
 ```
 
 ## Sections
 
-1. **Hero** — full-bleed parallax image, split-word display title
-2. **Marquee** — infinite ticker
-3. **Manifesto** — massive scroll-revealed typography
-4. **The Drop** — pinned horizontal scroll showcase
-5. **Quote** — cinematic pull quote with parallax
-6. **Lookbook** — bento video grid with parallax media
-7. **AI Style Assistant** — USP section with live chat mock
-8. **Outro + Footer** — minimal dark close
-
-## Stack
-
-- GSAP 3 + ScrollTrigger (CDN)
-- Lenis smooth scroll (CDN)
-- Custom cursor with `mix-blend-mode: difference`
-- Fonts: Anton, Archivo Black, Inter, Space Mono
-- Imagery: Unsplash (replace with brand assets before launch)
+1. Loading screen (rotating words + counter + progress)
+2. Hero (HLS background video, floating navbar, GSAP entrance)
+3. Cities marquee
+4. Featured pieces (bento grid)
+5. Field notes (journal pills)
+6. Explorations (pinned + parallax columns + lightbox)
+7. Stats (counting up on view)
+8. Contact / footer (marquee, mailto CTA, social bar)

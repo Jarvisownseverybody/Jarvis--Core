@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE: /Jarvis--Core/
+          VITE_BASE: ./
 
       - name: Add 404 fallback (SPA routing)
         run: cp dist/index.html dist/404.html

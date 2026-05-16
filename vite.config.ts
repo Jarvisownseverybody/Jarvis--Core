@@ -6,7 +6,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   return {
     plugins: [react()],
-    base: env.VITE_BASE ?? "/Jarvis--Core/",
+    // Relative base — works at any path (/, /Jarvis--Core/, /gh/.../live/, …)
+    base: env.VITE_BASE ?? "./",
     build: {
       target: "es2020",
       sourcemap: false,

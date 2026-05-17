@@ -118,28 +118,28 @@
     @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(.95) } to { opacity: 1; transform: translateY(0) scale(1) } }
     .toast-in { animation: toastIn .5s var(--ease) forwards; }
 
-    /* ---------- background cloud band (subtle, drifts on scroll) ---------- */
+    /* ---------- 3D cloud sky (fills viewport, parallax layers) ---------- */
     .cloud-bg {
-      position: fixed; left: 0; right: 0; bottom: 0;
-      height: 45vh; pointer-events: none; z-index: 0;
-      overflow: hidden;
-      mask-image: linear-gradient(to top, black 0%, black 35%, transparent 92%);
-      -webkit-mask-image: linear-gradient(to top, black 0%, black 35%, transparent 92%);
+      position: fixed; inset: 0; pointer-events: none;
+      z-index: 0; overflow: hidden;
+      background: linear-gradient(180deg, hsl(36 30% 95%) 0%, hsl(200 30% 88%) 60%, hsl(36 25% 92%) 100%);
     }
-    .cloud-band {
-      position: absolute; bottom: -10%; left: -25%;
-      width: 160%; height: 130%;
-      object-fit: cover; object-position: bottom center;
-      opacity: .42;
-      will-change: transform;
+    .cloud-layer {
+      position: absolute; inset: -20%;
+      background-repeat: no-repeat;
+      background-size: cover; background-position: center;
+      will-change: transform, opacity;
     }
+    .cloud-back  { opacity: .38; filter: blur(2px); }
+    .cloud-mid   { opacity: .55; filter: blur(.5px); }
+    .cloud-front { opacity: .72; }
 
     /* sections sit above the cloud bg */
     main, header, footer { position: relative; z-index: 1; }
-    /* hero section uses transparent bg so cloud peeks through at the bottom */
-    .hero-open { background: transparent; }
-    /* other sections paint over the cloud */
-    .opaque { background: hsl(var(--bg)); }
+    /* transparent: hero, banners, atelier quote, newsletter — clouds visible */
+    .hero-open, .transparent { background: transparent; }
+    /* opaque: dense content sections — readable */
+    .opaque   { background: hsl(var(--bg)); }
     .opaque-2 { background: hsl(36 22% 91%); }
 
     :focus-visible { outline: 1px solid hsl(var(--fg) / .6); outline-offset: 3px; border-radius: 2px; }
@@ -149,12 +149,15 @@
 <body class="bg-cream text-ink font-sans">
 
   <!-- ============================================== -->
-  <!-- BACKGROUND CLOUD BAND                            -->
+  <!-- 3D CLOUD SKY (3 parallax layers)                 -->
   <!-- ============================================== -->
   <div class="cloud-bg" aria-hidden="true">
-    <img class="cloud-band"
-         src="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=2600&q=80"
-         alt=""/>
+    <div class="cloud-layer cloud-back"
+         style="background-image:url('https://images.unsplash.com/photo-1419833173245-f59e1b93f9ee?auto=format&fit=crop&w=2400&q=80');"></div>
+    <div class="cloud-layer cloud-mid"
+         style="background-image:url('https://images.unsplash.com/photo-1530908295418-a12e326966ba?auto=format&fit=crop&w=2400&q=80');"></div>
+    <div class="cloud-layer cloud-front"
+         style="background-image:url('https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=2400&q=80');"></div>
   </div>
 
   <!-- ============================================== -->
@@ -225,7 +228,7 @@
   <!-- ============================================== -->
   <!-- COUNTDOWN STRIP                                  -->
   <!-- ============================================== -->
-  <section class="opaque-2 border-y border-ink/10 py-6">
+  <section class="transparent border-y border-ink/10 py-6">
     <div class="mx-auto flex max-w-[1380px] flex-col items-center gap-4 px-6 md:flex-row md:justify-between">
       <div class="flex items-center gap-3">
         <span class="relative flex h-2 w-2">
@@ -242,7 +245,7 @@
   <!-- ============================================== -->
   <!-- MARQUEE                                          -->
   <!-- ============================================== -->
-  <section class="opaque border-b border-ink/10 py-5 overflow-hidden">
+  <section class="transparent border-b border-ink/10 py-5 overflow-hidden">
     <div class="marquee-track flex w-max items-center gap-12 whitespace-nowrap">
       <span class="font-serif text-xl italic text-ink/60">Florence</span><span class="text-ink/25">✦</span>
       <span class="font-serif text-xl italic text-ink/60">Paris</span><span class="text-ink/25">✦</span>
@@ -355,7 +358,7 @@
   <!-- ============================================== -->
   <!-- ATELIER QUOTE                                    -->
   <!-- ============================================== -->
-  <section id="story" class="opaque relative py-24 md:py-28">
+  <section id="story" class="transparent relative py-24 md:py-28">
     <div class="mx-auto max-w-3xl px-6 text-center">
       <div class="reveal flex items-center justify-center gap-3">
         <span class="h-px w-10 bg-ink/40"></span>
@@ -373,7 +376,7 @@
   <!-- ============================================== -->
   <!-- NEWSLETTER                                       -->
   <!-- ============================================== -->
-  <section class="opaque-2 relative border-t border-ink/10 py-20 md:py-24">
+  <section class="transparent relative border-t border-ink/10 py-20 md:py-24">
     <div class="mx-auto max-w-2xl px-6 text-center">
       <h2 class="reveal font-serif font-light italic leading-[0.95] text-ink" style="font-size: clamp(2rem, 5.5vw, 3.5rem);">
         Get the key<br/><span class="not-italic">to the next drop.</span>
@@ -498,10 +501,18 @@
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    /* CLOUD BAND — subtle horizontal drift through the whole page */
-    gsap.to('.cloud-band', {
-      xPercent: -14, yPercent: -6, ease: 'none',
+    /* CLOUD SKY — 3-layer 3D parallax (back slow, front fast + scale up) */
+    gsap.to('.cloud-back', {
+      yPercent: -18, xPercent: 8, scale: 1.08, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.4 }
+    });
+    gsap.to('.cloud-mid', {
+      yPercent: -38, xPercent: -12, scale: 1.18, ease: 'none',
       scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.2 }
+    });
+    gsap.to('.cloud-front', {
+      yPercent: -68, xPercent: 16, scale: 1.32, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1 }
     });
 
     /* Generic reveals */

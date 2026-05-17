@@ -88,16 +88,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 
-  <!-- Three.js (WebGL hero scene) via importmap -->
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-    }
-  }
-  </script>
-
   <style>
     :root {
       --bg:    36 30% 95%;
@@ -258,63 +248,6 @@
     }
     .chapter .overlay .cta:hover { border-color: white; }
 
-    /* ============================================================ */
-    /*  THREE.JS HERO — autoplay 3D fly-through                     */
-    /* ============================================================ */
-    .three-hero {
-      position: relative; width: 100%; height: 100svh;
-      background: hsl(36 30% 95%);
-      overflow: hidden;
-      z-index: 1;
-    }
-    #three-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-
-    .three-loader {
-      position: absolute; inset: 0; z-index: 4;
-      background: hsl(36 30% 95%);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1.5rem;
-      transition: opacity .9s var(--ease);
-    }
-    .three-loader.gone { opacity: 0; pointer-events: none; }
-    .three-loader .mark {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem; letter-spacing: 0.45em; font-weight: 300;
-      color: hsl(25 15% 10%);
-    }
-    .three-loader .bar { position: relative; width: 120px; height: 1px; background: hsl(25 10% 80%); overflow: hidden; }
-    .three-loader .bar::after {
-      content: ''; position: absolute; top: 0; left: -30%; height: 100%; width: 30%;
-      background: hsl(25 15% 10%); animation: loaderBar 1.4s ease-in-out infinite;
-    }
-    @keyframes loaderBar { 0% { left: -30%; } 100% { left: 100%; } }
-
-    .three-skip {
-      position: absolute; top: 1.25rem; right: 1.25rem; z-index: 3;
-      border: 1px solid hsl(25 15% 10% / .3);
-      background: hsl(36 30% 95% / .7);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      padding: 8px 16px;
-      font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
-      color: hsl(25 15% 10%);
-      cursor: pointer;
-      opacity: 0; transition: opacity .5s ease, background .3s ease, color .3s ease;
-    }
-    .three-hero.ready .three-skip { opacity: 1; }
-    .three-hero.done .three-skip { opacity: 0; pointer-events: none; }
-    .three-skip:hover { background: hsl(25 15% 10%); color: hsl(36 30% 95%); }
-
-    .three-enter {
-      position: absolute; left: 50%; bottom: 3.5rem; transform: translate(-50%, 20px);
-      z-index: 3;
-      border-bottom: 1px solid hsl(25 15% 10% / .45);
-      padding-bottom: 4px;
-      font-size: 10px; letter-spacing: .45em; text-transform: uppercase;
-      color: hsl(25 15% 10%);
-      cursor: pointer; text-decoration: none;
-      opacity: 0; transition: opacity 1s ease, transform 1s var(--ease);
-    }
-    .three-hero.done .three-enter { opacity: 1; transform: translate(-50%, 0); }
 
     :focus-visible { outline: 1px solid hsl(var(--fg) / .6); outline-offset: 3px; border-radius: 2px; }
   </style>
@@ -367,16 +300,17 @@
   <main>
 
     <!-- ========================================== -->
-    <!-- THREE.JS HERO — autoplay 3D fly-through      -->
+    <!-- HERO — full-bleed editorial                  -->
     <!-- ========================================== -->
-    <section id="top" class="three-hero">
-      <canvas id="three-canvas"></canvas>
-      <div class="three-loader" id="three-loader">
-        <span class="mark">JUSTIN</span>
-        <div class="bar"></div>
+    <section id="top" class="chapter">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2400&q=85"
+           alt="JUSTIN Drop 001 — editorial silhouette" loading="eager"/>
+      <div class="veil"></div>
+      <div class="overlay reveal">
+        <span class="eyebrow">Drop 001 — Spring/Summer 26</span>
+        <h2>Premium<br/><span class="alt">Silhouette.</span></h2>
+        <a href="#shop" class="cta">Discover the Drop</a>
       </div>
-      <button class="three-skip" id="three-skip">Skip →</button>
-      <a href="#countdown" class="three-enter">Scroll · Enter the Maison</a>
     </section>
 
     <!-- ========================================== -->
@@ -791,220 +725,6 @@
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    /* ====================================================== */
-    /*  THREE.JS HERO — WebGL fly-through, autoplay on load    */
-    /* ====================================================== */
-    (async function initThreeHero() {
-      const canvas = document.getElementById('three-canvas');
-      const heroSection = document.getElementById('top');
-      const loaderEl = document.getElementById('three-loader');
-      if (!canvas || !heroSection) return;
-
-      let THREE, EffectComposer, RenderPass, UnrealBloomPass;
-      try {
-        THREE = await import('three');
-        ({ EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js'));
-        ({ RenderPass }     = await import('three/addons/postprocessing/RenderPass.js'));
-        ({ UnrealBloomPass }= await import('three/addons/postprocessing/UnrealBloomPass.js'));
-      } catch (err) {
-        console.warn('Three.js failed to load:', err);
-        heroSection.style.display = 'none';
-        return;
-      }
-
-      /* ---------- scene ---------- */
-      const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0xf3eee4);
-      scene.fog = new THREE.Fog(0xf3eee4, 5, 30);
-
-      const camera = new THREE.PerspectiveCamera(48, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.1;
-
-      /* ---------- corridor of chambers ---------- */
-      const CHAMBERS = 5;
-      const DEPTH = 8, WIDTH = 6, HEIGHT = 4.2;
-
-      const wallMat   = new THREE.MeshStandardMaterial({ color: 0xf6efe2, roughness: 0.92 });
-      const floorMat  = new THREE.MeshStandardMaterial({ color: 0xe6ddca, roughness: 0.85 });
-      const ceilMat   = new THREE.MeshStandardMaterial({ color: 0xfaf6ed, roughness: 0.98 });
-
-      for (let i = 0; i < CHAMBERS; i++) {
-        const cz = -i * DEPTH - DEPTH / 2;
-
-        const floor = new THREE.Mesh(new THREE.PlaneGeometry(WIDTH, DEPTH), floorMat);
-        floor.rotation.x = -Math.PI / 2; floor.position.set(0, 0, cz); scene.add(floor);
-
-        const ceil = new THREE.Mesh(new THREE.PlaneGeometry(WIDTH, DEPTH), ceilMat);
-        ceil.rotation.x = Math.PI / 2; ceil.position.set(0, HEIGHT, cz); scene.add(ceil);
-
-        const lw = new THREE.Mesh(new THREE.PlaneGeometry(DEPTH, HEIGHT), wallMat);
-        lw.rotation.y = Math.PI / 2; lw.position.set(-WIDTH / 2, HEIGHT / 2, cz); scene.add(lw);
-
-        const rw = new THREE.Mesh(new THREE.PlaneGeometry(DEPTH, HEIGHT), wallMat);
-        rw.rotation.y = -Math.PI / 2; rw.position.set(WIDTH / 2, HEIGHT / 2, cz); scene.add(rw);
-
-        /* warm pool light per chamber */
-        const lamp = new THREE.PointLight(0xfff0d6, 4.5, 14, 1.6);
-        lamp.position.set(0, HEIGHT - 0.4, cz);
-        scene.add(lamp);
-      }
-      /* back wall at corridor end */
-      const back = new THREE.Mesh(new THREE.PlaneGeometry(WIDTH, HEIGHT), wallMat);
-      back.position.set(0, HEIGHT / 2, -CHAMBERS * DEPTH); scene.add(back);
-
-      /* ---------- editorial panels on alternating side walls ---------- */
-      const texLoader = new THREE.TextureLoader();
-      const panelUrls = [
-        'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85',
-        'https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=900&q=85',
-        'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=900&q=85',
-        'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=85',
-      ];
-      let loaded = 0;
-      const onTex = () => {
-        loaded++;
-        if (loaded >= panelUrls.length) {
-          loaderEl?.classList.add('gone');
-          heroSection.classList.add('ready');
-          tl.play();
-        }
-      };
-      panelUrls.forEach((url, i) => {
-        texLoader.load(url, tex => {
-          tex.colorSpace = THREE.SRGBColorSpace;
-          const m = new THREE.MeshBasicMaterial({ map: tex });
-          const panel = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 2.35), m);
-          const cz = -(i + 1) * DEPTH + DEPTH * 0.5;
-          const side = i % 2 === 0 ? -1 : 1;
-          panel.rotation.y = -side * Math.PI / 2;
-          panel.position.set(side * (WIDTH / 2 - 0.06), HEIGHT * 0.56, cz);
-          scene.add(panel);
-          onTex();
-        }, undefined, onTex);
-      });
-
-      /* ---------- brand text rendered to canvas textures ---------- */
-      function textTex(text, opts = {}) {
-        const c = document.createElement('canvas');
-        c.width = 2048; c.height = 512;
-        const ctx = c.getContext('2d');
-        ctx.clearRect(0, 0, c.width, c.height);
-        ctx.fillStyle = opts.color || '#1d1a14';
-        ctx.font = opts.font || '300 italic 280px "Cormorant Garamond", serif';
-        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText(text, c.width / 2, c.height / 2);
-        const t = new THREE.CanvasTexture(c);
-        t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
-        return t;
-      }
-
-      const brandPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(4, 1),
-        new THREE.MeshBasicMaterial({ map: textTex('JUSTIN', { font: '300 280px "Cormorant Garamond", serif' }), transparent: true })
-      );
-      brandPlane.position.set(0, HEIGHT * 0.58, -CHAMBERS * DEPTH + 0.06);
-      scene.add(brandPlane);
-
-      const tagPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(5, 1.25),
-        new THREE.MeshBasicMaterial({ map: textTex('Premium Silhouette.', { font: '300 italic 200px "Cormorant Garamond", serif' }), transparent: true })
-      );
-      tagPlane.rotation.y = Math.PI / 2;
-      tagPlane.position.set(-WIDTH / 2 + 0.06, HEIGHT * 0.5, -DEPTH * 2.5);
-      scene.add(tagPlane);
-
-      const dropPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(3, 0.5),
-        new THREE.MeshBasicMaterial({ map: textTex('DROP 001 — SS / 26', { font: '300 110px "Inter", sans-serif' }), transparent: true })
-      );
-      dropPlane.rotation.y = -Math.PI / 2;
-      dropPlane.position.set(WIDTH / 2 - 0.06, HEIGHT * 0.18, -DEPTH * 1.5);
-      scene.add(dropPlane);
-
-      /* ---------- ambient + key light ---------- */
-      scene.add(new THREE.AmbientLight(0xffffff, 0.45));
-      const key = new THREE.DirectionalLight(0xffffff, 0.55);
-      key.position.set(2, 5, 3);
-      scene.add(key);
-
-      /* ---------- camera path (curve through chambers) ---------- */
-      const curvePoints = [];
-      curvePoints.push(new THREE.Vector3(0, 1.6, 3));
-      for (let i = 0; i < CHAMBERS; i++) {
-        const cz = -i * DEPTH - DEPTH * 0.5;
-        curvePoints.push(new THREE.Vector3(i % 2 === 0 ? -0.45 : 0.45, 1.6, cz));
-      }
-      curvePoints.push(new THREE.Vector3(0, 1.6, -CHAMBERS * DEPTH + 1.6));
-      const curve = new THREE.CatmullRomCurve3(curvePoints, false, 'catmullrom', 0.5);
-
-      /* ---------- post-processing: subtle bloom ---------- */
-      const composer = new EffectComposer(renderer);
-      composer.addPass(new RenderPass(scene, camera));
-      const bloom = new UnrealBloomPass(
-        new THREE.Vector2(canvas.clientWidth, canvas.clientHeight),
-        0.22, 0.55, 0.9
-      );
-      composer.addPass(bloom);
-
-      /* ---------- render loop ---------- */
-      const state = { progress: 0 };
-      const lookAhead = new THREE.Vector3();
-      let alive = true;
-      function frame() {
-        if (!alive) return;
-        requestAnimationFrame(frame);
-        const t = state.progress;
-        camera.position.copy(curve.getPoint(t));
-        lookAhead.copy(curve.getPoint(Math.min(0.985, t + 0.04)));
-        camera.lookAt(lookAhead);
-        composer.render();
-      }
-      frame();
-
-      /* ---------- autoplay timeline ---------- */
-      const tl = gsap.timeline({
-        paused: true,
-        onComplete: () => heroSection.classList.add('done'),
-      });
-      tl.fromTo(state, { progress: 0 }, { progress: 0.97, duration: 18, ease: 'power2.inOut' });
-
-      /* ---------- skip button ---------- */
-      document.getElementById('three-skip')?.addEventListener('click', () => {
-        tl.progress(0.97);
-      });
-
-      /* ---------- resize ---------- */
-      function onResize() {
-        const w = canvas.clientWidth, h = canvas.clientHeight;
-        camera.aspect = w / h; camera.updateProjectionMatrix();
-        renderer.setSize(w, h, false); composer.setSize(w, h);
-      }
-      window.addEventListener('resize', onResize);
-      onResize();
-
-      /* ---------- pause render when offscreen (battery) ---------- */
-      const io = new IntersectionObserver(entries => {
-        const visible = entries[0].isIntersecting;
-        if (visible && !alive) { alive = true; frame(); }
-        else if (!visible) { alive = false; }
-      });
-      io.observe(heroSection);
-
-      /* safety: if textures hang, kick off anyway after 4s */
-      setTimeout(() => {
-        if (!heroSection.classList.contains('ready')) {
-          loaderEl?.classList.add('gone');
-          heroSection.classList.add('ready');
-          tl.play();
-        }
-      }, 4000);
-    })();
 
     /* 3D CLOUD SKY — 3 layer parallax */
     gsap.to('.cloud-back', {

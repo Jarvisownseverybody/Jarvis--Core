@@ -180,6 +180,48 @@
     }
     .modal-overlay.open .panel { transform: translateY(0); }
 
+    /* ============================================================ */
+    /*  CUSTOM CURSOR · MAGNETIC · TILT · SCRAMBLE                  */
+    /* ============================================================ */
+    @media (hover: hover) and (pointer: fine) {
+      html, html * { cursor: none !important; }
+      #cursor { display: block; }
+    }
+    #cursor { display: none; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; }
+    .cursor-dot, .cursor-ring {
+      position: fixed; top: 0; left: 0; pointer-events: none;
+      border-radius: 50%; mix-blend-mode: difference;
+      will-change: transform;
+    }
+    .cursor-dot {
+      width: 6px; height: 6px; background: #fff;
+      transform: translate3d(-50%, -50%, 0);
+    }
+    .cursor-ring {
+      width: 36px; height: 36px; border: 1px solid #fff;
+      transform: translate3d(-50%, -50%, 0);
+      display: flex; align-items: center; justify-content: center;
+      transition: width .3s var(--ease), height .3s var(--ease),
+                  background .25s ease, border-color .25s ease,
+                  mix-blend-mode .15s ease;
+    }
+    .cursor-ring.hover { width: 56px; height: 56px; }
+    .cursor-ring.click { width: 22px; height: 22px; }
+    .cursor-ring.label-mode {
+      width: 90px; height: 90px;
+      background: #fff; border-color: #fff;
+      mix-blend-mode: normal;
+    }
+    .cursor-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
+      color: #000; opacity: 0; transition: opacity .2s ease;
+    }
+    .cursor-ring.label-mode .cursor-label { opacity: 1; }
+
+    [data-magnetic] { transition: transform .35s var(--ease); will-change: transform; }
+    [data-tilt] { transition: transform .45s var(--ease); will-change: transform; transform-style: preserve-3d; }
+
     /* ---------- focus ---------- */
     :focus-visible { outline: 2px solid #0a0a0a; outline-offset: 2px; border-radius: 0; }
 
@@ -559,6 +601,14 @@
     </div>
   </div>
 
+  <!-- ============================================== -->
+  <!-- CUSTOM CURSOR                                    -->
+  <!-- ============================================== -->
+  <div id="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"><span class="cursor-label"></span></div>
+  </div>
+
   <script type="module">
     /* =============================================================== */
     /*  JUSTIN_CONFIG  ·  Swap to live                                  */
@@ -847,6 +897,157 @@
     renderProducts();
     renderCart();
     window.addEventListener('load', () => ScrollTrigger.refresh());
+
+    /* ====================================================== */
+    /*  CUSTOM CURSOR · MAGNETIC · TILT · TEXT SCRAMBLE        */
+    /* ====================================================== */
+    (function initInteractions() {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+      /* Auto-tag interactive elements (run after product grid renders too) */
+      const tag = () => {
+        document.querySelectorAll('[data-add]:not([data-tagged])').forEach(el => {
+          if (!el.dataset.cursorLabel) el.dataset.cursorLabel = '+ ADD';
+          el.dataset.magnetic = '';
+          el.dataset.tagged = '1';
+        });
+        document.querySelectorAll('.shop-look:not([data-tagged])').forEach(el => {
+          el.dataset.cursorLabel = 'SHOP';
+          el.dataset.tagged = '1';
+        });
+        document.querySelectorAll('.chapter .cta:not([data-tagged])').forEach(el => {
+          el.dataset.cursorLabel = 'ENTER';
+          el.dataset.magnetic = '';
+          el.dataset.tagged = '1';
+        });
+        document.querySelectorAll('#checkout-btn:not([data-tagged])').forEach(el => {
+          el.dataset.cursorLabel = 'CHECKOUT';
+          el.dataset.magnetic = '';
+          el.dataset.tagged = '1';
+        });
+        document.querySelectorAll('header nav a:not([data-tagged]), header .lang-toggle:not([data-tagged])').forEach(el => {
+          el.dataset.scramble = '';
+          el.dataset.tagged = '1';
+        });
+        document.querySelectorAll('#waitlist-form button:not([data-tagged])').forEach(el => {
+          el.dataset.magnetic = '';
+          el.dataset.cursorLabel = 'SUBSCRIBE';
+          el.dataset.tagged = '1';
+        });
+        document.querySelectorAll('#product-grid .card > div:first-child:not([data-tagged])').forEach(el => {
+          el.dataset.tilt = '';
+          el.dataset.tagged = '1';
+        });
+      };
+      tag();
+
+      /* re-tag whenever products re-render */
+      const grid = document.getElementById('product-grid');
+      if (grid) new MutationObserver(tag).observe(grid, { childList: true });
+
+      /* ---------- CURSOR ---------- */
+      const cursor = document.getElementById('cursor');
+      if (!cursor) return;
+      const dot   = cursor.querySelector('.cursor-dot');
+      const ring  = cursor.querySelector('.cursor-ring');
+      const label = cursor.querySelector('.cursor-label');
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let rx = mx, ry = my, dx = mx, dy = my;
+
+      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+      (function animate() {
+        dx += (mx - dx) * 0.55;
+        dy += (my - dy) * 0.55;
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        dot.style.transform  = `translate3d(${dx}px, ${dy}px, 0) translate(-50%, -50%)`;
+        ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+        requestAnimationFrame(animate);
+      })();
+
+      /* delegated hover handling so dynamic elements (cart, modal) work */
+      document.addEventListener('mouseover', e => {
+        const t = e.target.closest('a, button, label, [data-cursor]');
+        if (!t) return;
+        const lbl = t.dataset.cursorLabel;
+        if (lbl) { label.textContent = lbl; ring.classList.add('label-mode'); }
+        else     { ring.classList.add('hover'); }
+      });
+      document.addEventListener('mouseout', e => {
+        const t = e.target.closest('a, button, label, [data-cursor]');
+        if (!t) return;
+        ring.classList.remove('hover', 'label-mode');
+      });
+      document.addEventListener('mousedown', () => ring.classList.add('click'));
+      document.addEventListener('mouseup',   () => ring.classList.remove('click'));
+
+      /* ---------- MAGNETIC ---------- */
+      document.addEventListener('mousemove', e => {
+        document.querySelectorAll('[data-magnetic]').forEach(el => {
+          const r = el.getBoundingClientRect();
+          const cx = r.left + r.width / 2;
+          const cy = r.top + r.height / 2;
+          const dx = e.clientX - cx, dy = e.clientY - cy;
+          const dist = Math.hypot(dx, dy);
+          const trigger = Math.max(r.width, r.height) * 1.1;
+          if (dist < trigger) {
+            el.style.transform = `translate(${dx * 0.25}px, ${dy * 0.35}px)`;
+          } else {
+            el.style.transform = 'translate(0, 0)';
+          }
+        });
+      });
+
+      /* ---------- TILT (delegated per element) ---------- */
+      function bindTilt(el) {
+        if (el._tiltBound) return; el._tiltBound = true;
+        el.addEventListener('mousemove', e => {
+          const r = el.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          el.style.transform = `perspective(900px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+        });
+        el.addEventListener('mouseleave', () => {
+          el.style.transform = `perspective(900px) rotateY(0deg) rotateX(0deg)`;
+        });
+      }
+      const bindAllTilt = () => document.querySelectorAll('[data-tilt]').forEach(bindTilt);
+      bindAllTilt();
+      if (grid) new MutationObserver(bindAllTilt).observe(grid, { childList: true, subtree: true });
+
+      /* ---------- TEXT SCRAMBLE ---------- */
+      const chars = '!<>-_/[]{}=+*^?#■▢▣◆';
+      function scramble(el) {
+        if (el._busy) return;
+        el._busy = true;
+        const target = el._orig || (el._orig = el.textContent);
+        const queue = [];
+        for (let i = 0; i < target.length; i++) {
+          const s = Math.floor(Math.random() * 10);
+          const e = s + Math.floor(Math.random() * 14) + 4;
+          queue.push({ to: target[i], s, e });
+        }
+        let frame = 0;
+        (function step() {
+          let out = '', done = 0;
+          for (let i = 0; i < queue.length; i++) {
+            const q = queue[i];
+            if (frame >= q.e) { out += q.to; done++; }
+            else if (frame >= q.s) {
+              if (!q.c || Math.random() < 0.3) q.c = chars[Math.floor(Math.random() * chars.length)];
+              out += q.c;
+            } else out += target[i];
+          }
+          el.textContent = out;
+          if (done < queue.length) { frame++; requestAnimationFrame(step); }
+          else { el.textContent = target; el._busy = false; }
+        })();
+      }
+      document.addEventListener('mouseenter', e => {
+        const t = e.target.closest?.('[data-scramble]');
+        if (t) scramble(t);
+      }, true);
+    })();
   </script>
 </body>
 </html>

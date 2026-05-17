@@ -212,22 +212,21 @@
 
     /* ---------- persistent cloud fog (drifts at the bottom of viewport) ---------- */
     .cloud-fog {
-      position: fixed; left: 0; right: 0; bottom: -4vh;
-      height: 38vh; pointer-events: none; z-index: 20;
+      position: fixed; left: 0; right: 0; bottom: -8vh;
+      height: 58vh; pointer-events: none; z-index: 25;
       overflow: hidden; opacity: 0;
-      mix-blend-mode: multiply;
-      mask-image: linear-gradient(to top, black 35%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to top, black 35%, transparent 100%);
-      will-change: opacity;
+      mask-image: linear-gradient(to top, black 28%, transparent 96%);
+      -webkit-mask-image: linear-gradient(to top, black 28%, transparent 96%);
+      will-change: opacity, transform;
     }
     .fog-layer {
-      position: absolute; bottom: -8%; left: -50%;
-      width: 200%; height: 130%;
+      position: absolute; bottom: -12%; left: -30%;
+      width: 160%; height: 140%;
       object-fit: cover; object-position: bottom center;
       will-change: transform;
     }
-    .fog-back  { opacity: .55; filter: blur(2px); }
-    .fog-front { opacity: .8; }
+    .fog-back  { opacity: .75; filter: blur(2px) brightness(1.05); }
+    .fog-front { opacity: .95; filter: brightness(1.08); }
 
     :focus-visible { outline: 1px solid hsl(var(--fg) / .6); outline-offset: 3px; border-radius: 2px; }
   </style>
@@ -536,18 +535,20 @@
       scrollTrigger: { trigger: '.scene-2', start: 'top 80%' }
     });
 
-    /* CLOUD FOG — fade in after the hero, drift across whole page */
+    /* CLOUD FOG — fade in after hero, rise up + drift as you scroll */
     gsap.fromTo('.cloud-fog', { opacity: 0 }, {
       opacity: 1, ease: 'none',
-      scrollTrigger: { trigger: '.scene-1', start: 'bottom 95%', end: 'bottom 40%', scrub: 1 }
+      scrollTrigger: { trigger: '.scene-1', start: 'bottom 95%', end: 'bottom 50%', scrub: 1 }
     });
+    /* back layer: slower rise, drifts right */
     gsap.to('.fog-back', {
-      xPercent: 12, yPercent: -4, ease: 'none',
-      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2 }
+      yPercent: -32, xPercent: 18, scale: 1.1, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.2 }
     });
+    /* front layer: faster rise, drifts left → parallax depth */
     gsap.to('.fog-front', {
-      xPercent: -18, yPercent: -8, ease: 'none',
-      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2 }
+      yPercent: -55, xPercent: -22, scale: 1.18, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.2 }
     });
 
     /* SCENE 1 — clouds part */

@@ -535,10 +535,15 @@
       scrollTrigger: { trigger: '.scene-2', start: 'top 80%' }
     });
 
-    /* CLOUD FOG — fade in after hero, rise up + drift as you scroll */
+    /* CLOUD FOG — fade in after hero, rise up + drift as you scroll,
+       then fade out before the Atelier quote so it stays clean */
     gsap.fromTo('.cloud-fog', { opacity: 0 }, {
       opacity: 1, ease: 'none',
       scrollTrigger: { trigger: '.scene-1', start: 'bottom 95%', end: 'bottom 50%', scrub: 1 }
+    });
+    gsap.to('.cloud-fog', {
+      opacity: 0, ease: 'none',
+      scrollTrigger: { trigger: '#story', start: 'top 90%', end: 'top 40%', scrub: 1 }
     });
     /* back layer: slower rise, drifts right */
     gsap.to('.fog-back', {

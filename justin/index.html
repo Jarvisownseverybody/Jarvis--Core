@@ -136,11 +136,15 @@
 
     /* sections sit above the cloud bg */
     main, header, footer { position: relative; z-index: 1; }
-    /* transparent: hero, banners, atelier quote, newsletter — clouds visible */
-    .hero-open, .transparent { background: transparent; }
-    /* opaque: dense content sections — readable */
-    .opaque   { background: hsl(var(--bg)); }
-    .opaque-2 { background: hsl(36 22% 91%); }
+    /* every section is transparent — clouds show through the whole page */
+    .hero-open, .transparent, .opaque, .opaque-2 { background: transparent; }
+    /* content blocks get a soft frosted bg for readability */
+    .glass-card {
+      background: hsl(0 0% 100% / .55);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border: 1px solid hsl(0 0% 100% / .55);
+    }
 
     :focus-visible { outline: 1px solid hsl(var(--fg) / .6); outline-offset: 3px; border-radius: 2px; }
   </style>
@@ -163,7 +167,7 @@
   <!-- ============================================== -->
   <!-- TOP NAV (solid, sticky — luxury maison style)    -->
   <!-- ============================================== -->
-  <header class="sticky top-0 z-50 border-b border-ink/10 bg-cream/85 backdrop-blur-xl">
+  <header class="sticky top-0 z-50 border-b border-ink/10 bg-cream/40 backdrop-blur-xl backdrop-saturate-150">
     <div class="mx-auto grid max-w-[1380px] grid-cols-3 items-center px-6 py-4 md:py-5">
       <nav class="hidden items-center gap-8 md:flex">
         <a href="#drop"     class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink">Drop</a>
@@ -294,17 +298,19 @@
         </div>
       </div>
       <div class="reveal flex flex-col justify-center lg:col-span-5">
-        <span class="text-[10px] font-light uppercase tracking-[0.5em] text-mute">02 / The Maison</span>
-        <h2 class="mt-6 font-serif font-light italic leading-[0.98] text-ink" style="font-size: clamp(2.2rem, 5.5vw, 4rem);">
-          Cut by hand.<br/><span class="not-italic font-normal">Numbered by name.</span>
-        </h2>
-        <p class="mt-6 max-w-md text-[14px] font-light leading-relaxed text-ink2">
-          Founded as a single atelier in Florence, JUSTIN releases nothing on a schedule. Each drop is a closed object — drafted, cut and stitched
-          between four hands, then sealed in a single delivery window. Once one hundred are claimed, the drop is archived.
-        </p>
-        <a href="#" class="reveal mt-8 inline-block self-start text-[10px] font-light uppercase tracking-[0.4em] text-ink underline-offset-4 hover:underline">
-          Read the manifesto →
-        </a>
+        <div class="glass-card p-8 md:p-10">
+          <span class="text-[10px] font-light uppercase tracking-[0.5em] text-mute">02 / The Maison</span>
+          <h2 class="mt-6 font-serif font-light italic leading-[0.98] text-ink" style="font-size: clamp(2.2rem, 5.5vw, 4rem);">
+            Cut by hand.<br/><span class="not-italic font-normal">Numbered by name.</span>
+          </h2>
+          <p class="mt-6 max-w-md text-[14px] font-light leading-relaxed text-ink2">
+            Founded as a single atelier in Florence, JUSTIN releases nothing on a schedule. Each drop is a closed object — drafted, cut and stitched
+            between four hands, then sealed in a single delivery window. Once one hundred are claimed, the drop is archived.
+          </p>
+          <a href="#" class="mt-8 inline-block self-start text-[10px] font-light uppercase tracking-[0.4em] text-ink underline-offset-4 hover:underline">
+            Read the manifesto →
+          </a>
+        </div>
       </div>
     </div>
   </section>

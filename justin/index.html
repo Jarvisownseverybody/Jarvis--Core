@@ -210,11 +210,38 @@
       opacity: 0; transform: translateY(20px); will-change: opacity, transform;
     }
 
+    /* ---------- persistent cloud fog (drifts at the bottom of viewport) ---------- */
+    .cloud-fog {
+      position: fixed; left: 0; right: 0; bottom: -4vh;
+      height: 38vh; pointer-events: none; z-index: 20;
+      overflow: hidden; opacity: 0;
+      mix-blend-mode: multiply;
+      mask-image: linear-gradient(to top, black 35%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to top, black 35%, transparent 100%);
+      will-change: opacity;
+    }
+    .fog-layer {
+      position: absolute; bottom: -8%; left: -50%;
+      width: 200%; height: 130%;
+      object-fit: cover; object-position: bottom center;
+      will-change: transform;
+    }
+    .fog-back  { opacity: .55; filter: blur(2px); }
+    .fog-front { opacity: .8; }
+
     :focus-visible { outline: 1px solid hsl(var(--fg) / .6); outline-offset: 3px; border-radius: 2px; }
   </style>
 </head>
 
 <body class="bg-cream text-ink font-sans">
+
+  <!-- Persistent cloud fog at the bottom of the viewport -->
+  <div class="cloud-fog" aria-hidden="true">
+    <img class="fog-layer fog-back"  alt=""
+         src="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=2400&q=80"/>
+    <img class="fog-layer fog-front" alt=""
+         src="https://images.unsplash.com/photo-1530908295418-a12e326966ba?auto=format&fit=crop&w=2400&q=80"/>
+  </div>
 
   <!-- =========================================================== -->
   <!-- NAV                                                           -->
@@ -507,6 +534,20 @@
     gsap.to('#nav', {
       opacity: 1, duration: .6, ease: 'power2.out',
       scrollTrigger: { trigger: '.scene-2', start: 'top 80%' }
+    });
+
+    /* CLOUD FOG — fade in after the hero, drift across whole page */
+    gsap.fromTo('.cloud-fog', { opacity: 0 }, {
+      opacity: 1, ease: 'none',
+      scrollTrigger: { trigger: '.scene-1', start: 'bottom 95%', end: 'bottom 40%', scrub: 1 }
+    });
+    gsap.to('.fog-back', {
+      xPercent: 12, yPercent: -4, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2 }
+    });
+    gsap.to('.fog-front', {
+      xPercent: -18, yPercent: -8, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2 }
     });
 
     /* SCENE 1 — clouds part */

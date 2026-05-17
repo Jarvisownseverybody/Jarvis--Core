@@ -248,6 +248,69 @@
     }
     .chapter .overlay .cta:hover { border-color: white; }
 
+    /* ============================================================ */
+    /*  3D SCROLL HERO — fly-through portals                        */
+    /* ============================================================ */
+    .scroll-3d {
+      position: relative; height: 320vh; z-index: 1;
+    }
+    .scroll-3d .stage {
+      position: sticky; top: 0; height: 100svh;
+      overflow: hidden;
+      perspective: 900px; perspective-origin: 50% 50%;
+      background:
+        radial-gradient(ellipse at 50% 30%, hsl(200 30% 92%) 0%, transparent 60%),
+        linear-gradient(180deg, hsl(200 25% 90%) 0%, hsl(36 30% 95%) 85%);
+    }
+    .scroll-3d .scene {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .portal {
+      position: absolute; left: 50%; top: 50%;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+    }
+    .portal-frame {
+      width: clamp(240px, 48vw, 540px);
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: hsl(36 22% 91%);
+      box-shadow: 0 50px 90px -30px rgba(40,30,20,.4);
+      border: 1px solid hsl(0 0% 100% / .4);
+    }
+    .portal-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .portal-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-style: italic;
+      font-size: clamp(4rem, 13vw, 10rem);
+      color: hsl(25 15% 10%);
+      line-height: .88; letter-spacing: -.02em;
+      text-align: center; white-space: nowrap;
+      text-shadow: 0 8px 30px hsl(0 0% 100% / .55);
+    }
+    .portal-text .alt { font-style: normal; font-weight: 400; }
+    .portal-doorframe {
+      width: clamp(280px, 36vw, 420px);
+      aspect-ratio: 1/2;
+      border: 1.5px solid hsl(25 15% 10% / .55);
+      border-radius: 240px 240px 0 0;
+      background: hsl(36 30% 95% / .15);
+    }
+    .scroll-3d .scroll-cue {
+      position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%);
+      z-index: 5;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: .5em; text-transform: uppercase;
+      color: hsl(25 8% 42%);
+      pointer-events: none;
+    }
+    .scroll-3d .scroll-cue::after {
+      content: ''; width: 1px; height: 28px;
+      background: linear-gradient(180deg, hsl(25 15% 10% / .35), transparent);
+    }
+
     :focus-visible { outline: 1px solid hsl(var(--fg) / .6); outline-offset: 3px; border-radius: 2px; }
   </style>
 </head>
@@ -299,16 +362,60 @@
   <main>
 
     <!-- ========================================== -->
-    <!-- HERO (full-bleed editorial)                  -->
+    <!-- 3D SCROLL HERO — fly-through portals         -->
     <!-- ========================================== -->
-    <section id="top" class="chapter">
-      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2400&q=85"
-           alt="JUSTIN Drop 001 — editorial silhouette" loading="eager"/>
-      <div class="veil"></div>
-      <div class="overlay reveal">
-        <span class="eyebrow">Drop 001 — Spring/Summer 26</span>
-        <h2>Premium<br/><span class="alt">Silhouette.</span></h2>
-        <a href="#chapter-1" class="cta">Discover the Drop</a>
+    <section id="top" class="scroll-3d">
+      <div class="stage">
+        <div class="scene" id="scene-3d">
+
+          <!-- Portal 1 : wordmark -->
+          <div class="portal" data-z="-100" data-x="0">
+            <div class="portal-text"><span class="alt">JUSTIN</span></div>
+          </div>
+
+          <!-- Portal 2 : editorial frame, left -->
+          <div class="portal" data-z="-650" data-x="-260">
+            <div class="portal-frame">
+              <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1100&q=85" alt="Frame · rooftop"/>
+            </div>
+          </div>
+
+          <!-- Portal 3 : text Drop 001 -->
+          <div class="portal" data-z="-1100" data-x="200">
+            <div class="portal-text" style="font-size: clamp(1.5rem, 5vw, 3.5rem); letter-spacing: .5em;">DROP 001</div>
+          </div>
+
+          <!-- Portal 4 : editorial frame, right -->
+          <div class="portal" data-z="-1700" data-x="240">
+            <div class="portal-frame">
+              <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1100&q=85" alt="Frame · highway"/>
+            </div>
+          </div>
+
+          <!-- Portal 5 : big text Premium -->
+          <div class="portal" data-z="-2300" data-x="-160">
+            <div class="portal-text">Premium</div>
+          </div>
+
+          <!-- Portal 6 : editorial frame, centre -->
+          <div class="portal" data-z="-2900" data-x="40">
+            <div class="portal-frame">
+              <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1100&q=85" alt="Frame · alley"/>
+            </div>
+          </div>
+
+          <!-- Portal 7 : big text Silhouette -->
+          <div class="portal" data-z="-3500" data-x="0">
+            <div class="portal-text"><span class="alt">Silhouette.</span></div>
+          </div>
+
+          <!-- Portal 8 : doorframe through which you exit into the maison -->
+          <div class="portal" data-z="-4200" data-x="0">
+            <div class="portal-doorframe"></div>
+          </div>
+
+        </div>
+        <span class="scroll-cue">Scroll · enter the maison</span>
       </div>
     </section>
 
@@ -723,6 +830,40 @@
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
+
+    /* ====================================================== */
+    /*  3D SCROLL HERO  —  scroll-coupled camera through       */
+    /*  CSS-3D portals (preserve-3d + perspective)             */
+    /* ====================================================== */
+    const scene3d = document.getElementById('scene-3d');
+    if (scene3d) {
+      /* lock each portal to its initial 3D coordinates from data-* */
+      scene3d.querySelectorAll('.portal').forEach(p => {
+        const z = parseFloat(p.dataset.z || 0);
+        const x = parseFloat(p.dataset.x || 0);
+        p.style.transform = `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px)`;
+      });
+
+      /* camera dolly: scene Z increases as you scroll → portals approach + pass */
+      gsap.to(scene3d, {
+        z: 4400, ease: 'none',
+        scrollTrigger: { trigger: '.scroll-3d', start: 'top top', end: 'bottom bottom', scrub: 1.1 }
+      });
+
+      /* subtle lateral weave so the camera doesn't read as a straight rail */
+      gsap.timeline({
+        scrollTrigger: { trigger: '.scroll-3d', start: 'top top', end: 'bottom bottom', scrub: 1.5 }
+      })
+      .to(scene3d, { x: -90, ease: 'sine.inOut', duration: .35 }, 0)
+      .to(scene3d, { x: 70,  ease: 'sine.inOut', duration: .35 }, .35)
+      .to(scene3d, { x: 0,   ease: 'sine.inOut', duration: .3 }, .7);
+
+      /* dim the scroll cue once we're moving */
+      gsap.to('.scroll-3d .scroll-cue', {
+        opacity: 0, ease: 'none',
+        scrollTrigger: { trigger: '.scroll-3d', start: 'top top', end: 'top -20%', scrub: true }
+      });
+    }
 
     /* 3D CLOUD SKY — 3 layer parallax */
     gsap.to('.cloud-back', {

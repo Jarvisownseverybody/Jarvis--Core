@@ -8,6 +8,50 @@
   <title>JUSTIN — Maison · Drop 001</title>
   <meta name="description" content="JUSTIN — Drop 001. A study in sculpted form. Hand-finished in Florence, released as a single numbered drop. Limited to 100 pieces." />
 
+  <!-- Favicon (inline SVG monogram) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3eee4'/%3E%3Ctext x='50' y='72' font-family='Cormorant Garamond,serif' font-size='70' font-weight='300' text-anchor='middle' fill='%23191512'%3EJ%3C/text%3E%3C/svg%3E"/>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3eee4'/%3E%3Ctext x='50' y='72' font-family='Cormorant Garamond,serif' font-size='70' font-weight='300' text-anchor='middle' fill='%23191512'%3EJ%3C/text%3E%3C/svg%3E"/>
+
+  <!-- Open Graph / Twitter (TikTok-bio share card) -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="JUSTIN — Drop 001 · Premium Silhouette"/>
+  <meta property="og:description" content="A study in sculpted form. Hand-finished in Florence, released as a single numbered drop. Limited to 100 pieces."/>
+  <meta property="og:image" content="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=85"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:url" content="https://justin.maison/"/>
+  <meta property="og:site_name" content="JUSTIN Maison"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="JUSTIN — Drop 001 · Premium Silhouette"/>
+  <meta name="twitter:description" content="Hand-finished in Florence. 100 numbered pieces."/>
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=85"/>
+
+  <!-- Structured data (Organization + WebSite) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "JUSTIN Maison",
+        "url": "https://justin.maison/",
+        "logo": "https://justin.maison/favicon.svg",
+        "sameAs": ["https://www.instagram.com/", "https://www.tiktok.com/"]
+      },
+      {
+        "@type": "WebSite",
+        "name": "JUSTIN Maison",
+        "url": "https://justin.maison/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://justin.maison/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://images.unsplash.com" />
@@ -509,20 +553,21 @@
       <div>
         <span class="text-[10px] font-light uppercase tracking-[0.4em] text-ink">Services</span>
         <ul class="mt-4 space-y-2 text-[12px] font-light text-mute">
-          <li><a href="#" class="hover:text-ink">Shipping</a></li>
-          <li><a href="#" class="hover:text-ink">Returns</a></li>
-          <li><a href="#" class="hover:text-ink">Care</a></li>
+          <li><a href="./returns.html" class="hover:text-ink">Shipping</a></li>
+          <li><a href="./returns.html" class="hover:text-ink">Returns</a></li>
+          <li><a href="./returns.html" class="hover:text-ink">Care</a></li>
           <li><a href="#" class="hover:text-ink">Concierge</a></li>
         </ul>
       </div>
     </div>
     <div class="mx-auto mt-14 flex max-w-[1500px] flex-col items-center justify-between gap-3 border-t border-ink/10 px-6 pt-6 md:flex-row">
       <span class="font-mono text-[10px] text-mute">© MMXXVI · JUSTIN MAISON · ALL RIGHTS RESERVED</span>
-      <div class="flex gap-5 text-[10px] font-light uppercase tracking-[0.4em] text-mute">
-        <a href="#" class="hover:text-ink">Privacy</a>
-        <a href="#" class="hover:text-ink">Terms</a>
+      <div class="flex flex-wrap items-center justify-center gap-5 text-[10px] font-light uppercase tracking-[0.4em] text-mute">
+        <a href="./privacy.html" class="hover:text-ink">Privacy</a>
+        <a href="./terms.html" class="hover:text-ink">Terms</a>
+        <a href="./returns.html" class="hover:text-ink">Returns</a>
         <a href="#" class="hover:text-ink">Cookies</a>
-        <a href="#" class="hover:text-ink">Imprint</a>
+        <a href="./admin.html" class="hover:text-ink" title="Maison Console">Console</a>
       </div>
     </div>
   </footer>
@@ -570,6 +615,52 @@
   </div>
 
   <script type="module">
+    /* =============================================================== */
+    /*  JUSTIN_CONFIG  ·  Swap these placeholders to go live            */
+    /* =============================================================== */
+    window.JUSTIN_CONFIG = {
+      stripe: {
+        publishableKey: '',            // pk_live_xxx — paste your Stripe publishable key
+        checkoutEndpoint: '',          // /api/checkout-session — Netlify/Vercel function URL
+      },
+      klaviyo: {
+        listId: '',                    // Klaviyo list ID for the waitlist
+        publicKey: '',                 // Klaviyo public site key
+      },
+      pixels: {
+        metaPixelId: '',               // Meta Pixel (Facebook/Instagram ads)
+        tiktokPixelId: '',             // TikTok Pixel
+      },
+      drop: {
+        dropDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        totalPiecesPerSKU: 100,
+      },
+    };
+
+    /* Meta Pixel — only fires when an ID is set */
+    if (JUSTIN_CONFIG.pixels.metaPixelId) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', JUSTIN_CONFIG.pixels.metaPixelId);
+      fbq('track', 'PageView');
+    }
+    /* TikTok Pixel — only fires when an ID is set */
+    if (JUSTIN_CONFIG.pixels.tiktokPixelId) {
+      !function (w, d, t) { w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+      ttq.methods=['page','track','identify','instances','debug','on','off','once','ready','alias','group','enableCookie','disableCookie'];
+      ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+      for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+      ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+      ttq.load=function(e,n){var i='https://analytics.tiktok.com/i18n/pixel/events.js';
+      ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=i;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};
+      var o=document.createElement('script');o.type='text/javascript';o.async=!0;o.src=i+'?sdkid='+e+'&lib='+t;
+      var a=document.getElementsByTagName('script')[0];a.parentNode.insertBefore(o,a)};
+      ttq.load(JUSTIN_CONFIG.pixels.tiktokPixelId); ttq.page(); }(window, document, 'ttq');
+    }
+
     gsap.registerPlugin(ScrollTrigger);
 
     /* LENIS */
@@ -602,14 +693,17 @@
     });
 
     /* ============================================== */
-    /*  PRODUCTS                                       */
+    /*  PRODUCTS  (read from admin-managed storage)    */
     /* ============================================== */
-    const products = [
-      { id:'hoodie', name:'Premium Silhouette Hoodie', category:'Outer',     price:280, sizes:['XS','S','M','L','XL'], stripe:'https://buy.stripe.com/test_replace_hoodie', img:'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1100&q=85' },
-      { id:'tee',    name:'Atelier Heavyweight Tee',   category:'Top',       price:120, sizes:['XS','S','M','L','XL'], stripe:'https://buy.stripe.com/test_replace_tee',    img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1100&q=85' },
-      { id:'cargo',  name:'Sculpted Cargo',            category:'Pant',      price:240, sizes:['28','30','32','34','36'], stripe:'https://buy.stripe.com/test_replace_cargo', img:'https://images.unsplash.com/photo-1517438476312-10d79c077509?auto=format&fit=crop&w=1100&q=85' },
-      { id:'cap',    name:'Maison Cap',                category:'Accessory', price:90,  sizes:['One Size'],            stripe:'https://buy.stripe.com/test_replace_cap',    img:'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=1100&q=85' },
+    const DEFAULT_PRODUCTS = [
+      { id:'hoodie', name:'Premium Silhouette Hoodie', category:'Outer',     price:280, total:100, sold:0, sizes:['XS','S','M','L','XL'],     stripe:'https://buy.stripe.com/test_replace_hoodie', img:'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1100&q=85' },
+      { id:'tee',    name:'Atelier Heavyweight Tee',   category:'Top',       price:120, total:100, sold:0, sizes:['XS','S','M','L','XL'],     stripe:'https://buy.stripe.com/test_replace_tee',    img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1100&q=85' },
+      { id:'cargo',  name:'Sculpted Cargo',            category:'Pant',      price:240, total:100, sold:0, sizes:['28','30','32','34','36'], stripe:'https://buy.stripe.com/test_replace_cargo', img:'https://images.unsplash.com/photo-1517438476312-10d79c077509?auto=format&fit=crop&w=1100&q=85' },
+      { id:'cap',    name:'Maison Cap',                category:'Accessory', price:90,  total:100, sold:0, sizes:['One Size'],                stripe:'https://buy.stripe.com/test_replace_cap',    img:'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=1100&q=85' },
     ];
+    const products = JSON.parse(localStorage.getItem('justin-products') || 'null') || DEFAULT_PRODUCTS;
+    /* persist current snapshot so admin reflects defaults on first load */
+    localStorage.setItem('justin-products', JSON.stringify(products));
 
     const state = {
       cart: JSON.parse(localStorage.getItem('justin-cart') || '[]'),
@@ -634,17 +728,29 @@
     /* PRODUCTS render */
     function renderProducts() {
       const grid = $('#product-grid');
-      grid.innerHTML = products.map((p, i) => `
+      grid.innerHTML = products.map((p, i) => {
+        const remaining = (p.total || 100) - (p.sold || 0);
+        const soldPct = Math.round(((p.sold || 0) / (p.total || 100)) * 100);
+        const soldOut = remaining <= 0;
+        return `
         <article class="snap-item card reveal w-[78vw] flex-none md:w-auto">
           <div class="relative aspect-[3/4] overflow-hidden bg-cream2">
             <img src="${p.img}" alt="${p.name} — JUSTIN Drop 001" class="card-img h-full w-full object-cover" loading="lazy"/>
             <span class="absolute left-3 top-3 border border-white/70 bg-white/80 px-2.5 py-1 text-[9px] font-light uppercase tracking-[0.3em] text-ink2 backdrop-blur">
               0${i+1} / ${p.category}
             </span>
+            ${soldOut ? `<span class="absolute right-3 top-3 border border-ink bg-ink px-2.5 py-1 text-[9px] font-light uppercase tracking-[0.3em] text-cream">Sold out</span>` : ''}
           </div>
           <div class="mt-4 flex items-baseline justify-between">
             <h3 class="font-serif text-lg font-light text-ink">${p.name}</h3>
             <span class="font-mono text-sm text-ink2">€ ${p.price}</span>
+          </div>
+          <div class="mt-2">
+            <div class="flex items-center justify-between text-[10px] font-light uppercase tracking-[0.3em] text-mute">
+              <span>${remaining} of ${p.total || 100} remaining</span>
+              <span class="font-mono">${soldPct}%</span>
+            </div>
+            <div class="mt-1 h-px w-full bg-ink/15"><div class="h-full bg-sage" style="width:${soldPct}%"></div></div>
           </div>
           <div class="mt-3 flex flex-wrap gap-1.5" data-sizes="${p.id}">
             ${p.sizes.map(s => `
@@ -653,11 +759,11 @@
               </label>
             `).join('')}
           </div>
-          <button class="mt-4 w-full border border-ink bg-white/40 py-2.5 text-[10px] font-light uppercase tracking-[0.35em] text-ink transition-all hover:bg-ink hover:text-cream" data-add="${p.id}">
-            Add to Bag
+          <button class="mt-4 w-full border border-ink bg-white/40 py-2.5 text-[10px] font-light uppercase tracking-[0.35em] text-ink transition-all hover:bg-ink hover:text-cream disabled:cursor-not-allowed disabled:border-mute disabled:bg-cream2 disabled:text-mute" data-add="${p.id}" ${soldOut ? 'disabled' : ''}>
+            ${soldOut ? 'Archived' : 'Add to Bag'}
           </button>
         </article>
-      `).join('');
+      `;}).join('');
 
       $$('[data-sizes]').forEach(box => {
         box.addEventListener('change', e => {
@@ -726,9 +832,39 @@
     /* CHECKOUT */
     $('#checkout-btn').addEventListener('click', () => {
       if (state.cart.length === 0) return;
+
+      /* Record orders + decrement stock so the admin console sees activity */
+      const orders = JSON.parse(localStorage.getItem('justin-orders') || '[]');
+      state.cart.forEach(c => {
+        const p = products.find(p => p.id === c.id);
+        if (!p) return;
+        const serial = String((p.sold || 0) + 1).padStart(3, '0') + '/' + (p.total || 100);
+        orders.push({
+          serial,
+          productId: p.id,
+          name: p.name,
+          size: c.size,
+          qty: c.qty,
+          price: p.price * c.qty,
+          at: new Date().toISOString(),
+        });
+        p.sold = (p.sold || 0) + c.qty;
+      });
+      localStorage.setItem('justin-orders', JSON.stringify(orders));
+      localStorage.setItem('justin-products', JSON.stringify(products));
+
+      /* Hand off to Stripe — for multi-item bags this should hit
+         JUSTIN_CONFIG.stripe.checkoutEndpoint (a serverless function
+         that creates a Stripe Checkout Session). For the demo we open
+         the first item's Payment Link. */
       const first = state.cart[0];
       const p = products.find(p => p.id === first.id);
       window.open(p.stripe, '_blank', 'noopener');
+
+      /* Clear the cart, refresh the storefront UI */
+      state.cart = [];
+      persistCart(); renderCart(); renderProducts();
+      showToast('Thank you. Your serial is sealed.');
     });
 
     /* WAITLIST */

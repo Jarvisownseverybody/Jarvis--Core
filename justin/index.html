@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <title>JUSTIN // DROP 001 — Premium Silhouette</title>
+  <meta name="description" content="JUSTIN — Drop 001. A study in sculpted form. Hand-finished in Florence, released as a single numbered drop." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind via Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html, body, #root { height: 100%; margin: 0; background: #000; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; overflow: hidden; }
+    /* Hide root until React mounts to avoid flash */
+    #root:empty + #boot { opacity: 1; }
+    #boot {
+      position: fixed; inset: 0; background: #000; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      letter-spacing: 0.4em; font-size: 14px; opacity: 0;
+      transition: opacity .4s ease; pointer-events: none; z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="boot">JUSTIN</div>
+
+  <!-- Import map: pin React + Framer Motion via esm.sh -->
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@18.3.1",
+      "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+      "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?deps=react@18.3.1",
+      "framer-motion": "https://esm.sh/framer-motion@11.11.17?deps=react@18.3.1,react-dom@18.3.1&external=react,react-dom"
+    }
+  }
+  </script>
+
+  <!-- Babel standalone so we can write JSX inline -->
+  <script src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"></script>
+
+  <script type="text/babel" data-type="module" data-presets="react">
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+    import { motion } from "framer-motion";
+
+    const VIDEO_SRC =
+      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260428_193507_4286c423-2fd9-4efd-92bd-91a939453fc1.mp4";
+
+    /* Motion presets */
+    const floatIn = (delay = 0, y = 40) => ({
+      initial: { opacity: 0, y, filter: "blur(20px)" },
+      animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+      transition: { duration: 1.6, delay, ease: [0.22, 1, 0.36, 1] },
+    });
+
+    const scaleIn = (delay = 0) => ({
+      initial: { opacity: 0, scale: 0.92, filter: "blur(24px)" },
+      animate: { opacity: 1, scale: 1, filter: "blur(0px)" },
+      transition: { duration: 2, delay, ease: [0.22, 1, 0.36, 1] },
+    });
+
+    /* Glass card */
+    const GlassCard = ({ children, className = "", ...motionProps }) => (
+      <motion.div
+        {...motionProps}
+        whileHover={{ y: -6, scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 220, damping: 20 }}
+        className={
+          "relative overflow-hidden rounded-2xl border border-white/15 " +
+          "bg-white/[0.06] backdrop-blur-2xl backdrop-saturate-150 " +
+          "shadow-[0_8px_40px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.18)] " +
+          className
+        }
+      >
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent" />
+        {children}
+      </motion.div>
+    );
+
+    /* Navbar */
+    const Navbar = () => (
+      <motion.header
+        {...floatIn(0.1, -20)}
+        className="fixed left-1/2 top-6 z-30 w-[min(1180px,92vw)] -translate-x-1/2"
+      >
+        <div className="flex items-center justify-between rounded-full border border-white/15 bg-white/[0.05] px-6 py-3 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.2)]">
+          <a href="#" className="group flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-white/80 shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+            <span className="font-serif text-xl tracking-[0.35em] text-white/95">JUSTIN</span>
+          </a>
+          <nav className="hidden items-center gap-9 md:flex">
+            {["Collection", "Lookbook", "Atelier", "Journal"].map((item) => (
+              <a key={item} href="#" className="text-[11px] font-light uppercase tracking-[0.3em] text-white/70 transition-colors duration-300 hover:text-white">
+                {item}
+              </a>
+            ))}
+          </nav>
+          <button className="rounded-full border border-white/20 bg-white/10 px-5 py-2 text-[11px] font-light uppercase tracking-[0.3em] text-white/90 backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/40">
+            Enter
+          </button>
+        </div>
+      </motion.header>
+    );
+
+    /* Headline */
+    const Headline = () => (
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
+        <motion.div {...floatIn(0.4, 20)} className="mb-8 flex items-center gap-3">
+          <span className="h-px w-12 bg-white/40" />
+          <span className="text-[10px] font-light uppercase tracking-[0.5em] text-white/70">
+            Drop 001 — Spring/Summer 26
+          </span>
+          <span className="h-px w-12 bg-white/40" />
+        </motion.div>
+
+        <motion.h1
+          {...scaleIn(0.6)}
+          className="font-serif font-light italic text-[clamp(3.5rem,12vw,11rem)] leading-[0.95] tracking-tight text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.55)]"
+        >
+          Premium
+          <br />
+          <span className="not-italic font-normal tracking-[-0.02em]">Silhouette</span>
+        </motion.h1>
+
+        <motion.p {...floatIn(1.1, 30)} className="mt-10 max-w-md text-sm font-light leading-relaxed text-white/75">
+          A study in sculpted form. Hand-finished in Florence, released in a single, numbered drop.
+        </motion.p>
+
+        <motion.div {...floatIn(1.4, 20)} className="mt-12 flex items-center gap-2">
+          <span className="h-1 w-1 animate-pulse rounded-full bg-white/90" />
+          <span className="text-[10px] font-light uppercase tracking-[0.5em] text-white/60">
+            N° 001 / 100
+          </span>
+        </motion.div>
+      </div>
+    );
+
+    /* Side meta labels */
+    const SideMeta = () => (
+      <>
+        <motion.div {...floatIn(0.3, 0)} className="fixed left-8 top-1/2 z-20 hidden -translate-y-1/2 -rotate-90 md:block">
+          <span className="text-[10px] font-light uppercase tracking-[0.5em] text-white/50">
+            JUSTIN · MAISON · MMXXVI
+          </span>
+        </motion.div>
+        <motion.div {...floatIn(0.3, 0)} className="fixed right-8 top-1/2 z-20 hidden -translate-y-1/2 rotate-90 md:block">
+          <span className="text-[10px] font-light uppercase tracking-[0.5em] text-white/50">
+            FLORENCE · PARIS · TOKYO
+          </span>
+        </motion.div>
+      </>
+    );
+
+    /* Bottom cards */
+    const BottomCards = () => (
+      <div className="pointer-events-none fixed bottom-8 left-0 right-0 z-20 px-6">
+        <div className="mx-auto flex w-full max-w-6xl items-end justify-between gap-4">
+          <GlassCard {...floatIn(1.6, 60)} className="pointer-events-auto w-[260px] p-5 md:w-[300px]">
+            <div className="mb-3 flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300/70" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300" />
+              </span>
+              <span className="text-[10px] font-light uppercase tracking-[0.4em] text-white/80">
+                Waitlist Active
+              </span>
+            </div>
+            <h3 className="font-serif text-2xl font-light text-white">2,481 in queue</h3>
+            <p className="mt-1 text-[11px] font-light text-white/60">Closes 06.06.26 — 23:59 CET</p>
+            <button className="mt-4 w-full rounded-full border border-white/20 bg-white/5 py-2 text-[10px] font-light uppercase tracking-[0.35em] text-white/85 transition-colors hover:bg-white/15">
+              Join Waitlist
+            </button>
+          </GlassCard>
+
+          <GlassCard {...floatIn(1.8, 60)} className="pointer-events-auto w-[260px] p-5 md:w-[300px]">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="text-[10px] font-light uppercase tracking-[0.4em] text-white/80">Pre-Order</span>
+              <span className="text-[10px] font-light tracking-widest text-white/50">01 / 100</span>
+            </div>
+            <h3 className="font-serif text-2xl font-light text-white">€ 2,890</h3>
+            <p className="mt-1 text-[11px] font-light text-white/60">Ships individually, numbered & sealed.</p>
+            <button className="mt-4 w-full rounded-full bg-white py-2 text-[10px] font-light uppercase tracking-[0.35em] text-black transition-all hover:bg-white/90">
+              Reserve Piece →
+            </button>
+          </GlassCard>
+        </div>
+      </div>
+    );
+
+    /* Floating orbs */
+    const FloatingOrbs = () => (
+      <>
+        <motion.div
+          animate={{ y: [0, -20, 0], opacity: [0.4, 0.8, 0.4] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="pointer-events-none absolute left-[12%] top-[28%] h-1.5 w-1.5 rounded-full bg-white/70 blur-[1px]"
+        />
+        <motion.div
+          animate={{ y: [0, 25, 0], opacity: [0.3, 0.7, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="pointer-events-none absolute right-[18%] top-[40%] h-1 w-1 rounded-full bg-white/60 blur-[1px]"
+        />
+        <motion.div
+          animate={{ y: [0, -15, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="pointer-events-none absolute left-[78%] top-[22%] h-2 w-2 rounded-full bg-white/50 blur-[1.5px]"
+        />
+      </>
+    );
+
+    /* App */
+    function App() {
+      return (
+        <main className="relative h-screen w-screen overflow-hidden bg-black font-sans text-white">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 z-0 h-full w-full object-cover"
+            src={VIDEO_SRC}
+          />
+          <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-black/10 to-black/60" />
+          <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.7)_100%)]" />
+          <div className="pointer-events-none absolute inset-4 z-[2] rounded-3xl border border-white/10" />
+          <div
+            className="pointer-events-none absolute inset-0 z-[2] opacity-[0.07] mix-blend-overlay"
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>\")",
+            }}
+          />
+          <SideMeta />
+          <Navbar />
+          <FloatingOrbs />
+          <Headline />
+          <BottomCards />
+          <motion.div {...floatIn(2, 20)} className="absolute bottom-2 left-1/2 z-20 -translate-x-1/2">
+            <span className="text-[9px] font-light uppercase tracking-[0.6em] text-white/40">
+              Scroll · Drop 001 · Scroll
+            </span>
+          </motion.div>
+        </main>
+      );
+    }
+
+    createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

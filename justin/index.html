@@ -188,6 +188,32 @@
       border: 1px solid hsl(0 0% 100% / .6);
     }
 
+    /* ---------- shop-the-look modal ---------- */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 60;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      background: rgba(40,30,20,.45);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s var(--ease);
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-overlay .panel {
+      background: hsl(36 30% 95% / .96);
+      backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid hsl(0 0% 100% / .65);
+      max-width: 760px; width: 100%; max-height: 90vh; overflow-y: auto;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      transform: translateY(20px) scale(.98);
+      transition: transform .4s var(--ease);
+      box-shadow: 0 30px 70px -20px rgba(40,30,20,.35);
+    }
+    .modal-overlay.open .panel { transform: translateY(0) scale(1); }
+
+    /* ---------- shop-look button stays clickable above figcaption gradient ---------- */
+    .shop-look { z-index: 2; transition: all .3s var(--ease); }
+
     /* ---------- chapter (full-bleed image with overlay) ---------- */
     .chapter {
       position: relative; width: 100%;
@@ -246,19 +272,24 @@
   <header class="sticky top-0 z-50 border-b border-ink/10 bg-cream/40 backdrop-blur-xl backdrop-saturate-150">
     <div class="mx-auto grid max-w-[1500px] grid-cols-3 items-center px-6 py-4 md:py-5">
       <nav class="hidden items-center gap-8 md:flex">
-        <a href="#chapter-1" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink">Drop</a>
-        <a href="#chapter-2" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink">Atelier</a>
-        <a href="#chapter-3" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink">Lookbook</a>
-        <a href="#chapter-4" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink">Heritage</a>
+        <a href="#chapter-1" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink" data-i18n="nav.drop">Drop</a>
+        <a href="#chapter-2" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink" data-i18n="nav.atelier">Atelier</a>
+        <a href="#chapter-3" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink" data-i18n="nav.lookbook">Lookbook</a>
+        <a href="#chapter-4" class="text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink" data-i18n="nav.heritage">Heritage</a>
       </nav>
       <a href="#top" class="col-span-2 flex justify-start md:col-span-1 md:justify-center">
         <span class="font-serif text-2xl tracking-[0.4em] text-ink md:text-3xl">JUSTIN</span>
       </a>
-      <div class="flex items-center justify-end gap-6">
-        <a href="#" class="hidden text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink md:inline">Search</a>
-        <a href="#" class="hidden text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink md:inline">Account</a>
+      <div class="flex items-center justify-end gap-5">
+        <div class="hidden items-center gap-1 text-[11px] font-light uppercase tracking-[0.3em] text-ink2 md:flex">
+          <button data-lang="en" class="lang-toggle text-ink" title="English">EN</button>
+          <span class="text-ink/30">/</span>
+          <button data-lang="de" class="lang-toggle hover:text-ink" title="Deutsch">DE</button>
+        </div>
+        <a href="#" class="hidden text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink md:inline" data-i18n="nav.search">Search</a>
+        <a href="#" class="hidden text-[11px] font-light uppercase tracking-[0.3em] text-ink2 hover:text-ink md:inline" data-i18n="nav.account">Account</a>
         <button id="open-cart" popovertarget="cart" class="flex items-center gap-2 text-[11px] font-light uppercase tracking-[0.3em] text-ink hover:text-sage">
-          <span>Cart</span>
+          <span data-i18n="nav.cart">Cart</span>
           <span class="flex h-5 min-w-5 items-center justify-center rounded-full bg-ink px-1.5 text-[10px] font-medium text-cream" data-cart-count>0</span>
         </button>
       </div>
@@ -372,33 +403,37 @@
     <!-- ========================================== -->
     <section id="frames" class="relative py-20 md:py-24">
       <div class="no-bar mx-auto flex max-w-[1600px] snap-rail gap-3 overflow-x-auto px-6 pb-4">
-        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]">
+        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]" data-look="tote,loafer">
           <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=85" alt="Frame 01" class="h-full w-full object-cover" loading="lazy"/>
           <figcaption class="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/55 via-black/15 to-transparent p-5">
             <span class="text-[10px] font-light uppercase tracking-[0.4em] text-white/90">Frame 01</span>
             <span class="font-mono text-[10px] text-white/70">Rooftop · Mumbai</span>
           </figcaption>
+          <button class="shop-look absolute right-4 top-4 border border-white/70 bg-white/15 px-3 py-1.5 text-[10px] font-light uppercase tracking-[0.35em] text-white backdrop-blur hover:bg-white hover:text-ink">Shop the Look</button>
         </figure>
-        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]">
+        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]" data-look="belt,card">
           <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85" alt="Frame 02" class="h-full w-full object-cover" loading="lazy"/>
           <figcaption class="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/55 via-black/15 to-transparent p-5">
             <span class="text-[10px] font-light uppercase tracking-[0.4em] text-white/90">Frame 02</span>
             <span class="font-mono text-[10px] text-white/70">Tunnel · Berlin</span>
           </figcaption>
+          <button class="shop-look absolute right-4 top-4 border border-white/70 bg-white/15 px-3 py-1.5 text-[10px] font-light uppercase tracking-[0.35em] text-white backdrop-blur hover:bg-white hover:text-ink">Shop the Look</button>
         </figure>
-        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]">
+        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]" data-look="tote,belt">
           <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1400&q=85" alt="Frame 03" class="h-full w-full object-cover" loading="lazy"/>
           <figcaption class="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/55 via-black/15 to-transparent p-5">
             <span class="text-[10px] font-light uppercase tracking-[0.4em] text-white/90">Frame 03</span>
             <span class="font-mono text-[10px] text-white/70">Alley · Tokyo</span>
           </figcaption>
+          <button class="shop-look absolute right-4 top-4 border border-white/70 bg-white/15 px-3 py-1.5 text-[10px] font-light uppercase tracking-[0.35em] text-white backdrop-blur hover:bg-white hover:text-ink">Shop the Look</button>
         </figure>
-        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]">
+        <figure class="snap-item reveal relative aspect-[3/4] w-[78vw] flex-none overflow-hidden md:w-[36vw] lg:w-[24vw]" data-look="loafer,card">
           <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1400&q=85" alt="Frame 04" class="h-full w-full object-cover" loading="lazy"/>
           <figcaption class="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/55 via-black/15 to-transparent p-5">
             <span class="text-[10px] font-light uppercase tracking-[0.4em] text-white/90">Frame 04</span>
             <span class="font-mono text-[10px] text-white/70">Highway · Delhi</span>
           </figcaption>
+          <button class="shop-look absolute right-4 top-4 border border-white/70 bg-white/15 px-3 py-1.5 text-[10px] font-light uppercase tracking-[0.35em] text-white backdrop-blur hover:bg-white hover:text-ink">Shop the Look</button>
         </figure>
       </div>
     </section>
@@ -601,6 +636,22 @@
   </div>
 
   <!-- ============================================== -->
+  <!-- SHOP-THE-LOOK MODAL                              -->
+  <!-- ============================================== -->
+  <div id="look-modal" class="modal-overlay" aria-hidden="true">
+    <div class="panel">
+      <div class="flex items-start justify-between">
+        <div>
+          <span class="text-[10px] font-light uppercase tracking-[0.5em] text-mute" id="look-eyebrow">Shop the Look</span>
+          <h3 class="mt-2 font-serif text-3xl font-light italic text-ink" id="look-title">Pieces in this frame</h3>
+        </div>
+        <button class="border border-ink/20 px-3 py-1 text-[10px] font-light uppercase tracking-[0.3em] text-ink2 hover:bg-ink/5" data-close>Close</button>
+      </div>
+      <div id="look-products" class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2"></div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
   <!-- TOAST                                            -->
   <!-- ============================================== -->
   <div id="toast" class="pointer-events-none fixed bottom-6 left-6 z-40 hidden">
@@ -696,10 +747,10 @@
     /*  PRODUCTS  (read from admin-managed storage)    */
     /* ============================================== */
     const DEFAULT_PRODUCTS = [
-      { id:'hoodie', name:'Premium Silhouette Hoodie', category:'Outer',     price:280, total:100, sold:0, sizes:['XS','S','M','L','XL'],     stripe:'https://buy.stripe.com/test_replace_hoodie', img:'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1100&q=85' },
-      { id:'tee',    name:'Atelier Heavyweight Tee',   category:'Top',       price:120, total:100, sold:0, sizes:['XS','S','M','L','XL'],     stripe:'https://buy.stripe.com/test_replace_tee',    img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1100&q=85' },
-      { id:'cargo',  name:'Sculpted Cargo',            category:'Pant',      price:240, total:100, sold:0, sizes:['28','30','32','34','36'], stripe:'https://buy.stripe.com/test_replace_cargo', img:'https://images.unsplash.com/photo-1517438476312-10d79c077509?auto=format&fit=crop&w=1100&q=85' },
-      { id:'cap',    name:'Maison Cap',                category:'Accessory', price:90,  total:100, sold:0, sizes:['One Size'],                stripe:'https://buy.stripe.com/test_replace_cap',    img:'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=1100&q=85' },
+      { id:'tote',   name:'Soleil Tote',         category:'Leather Goods', price:2400, total:100, sold:0, sizes:['One Size'],                stripe:'https://buy.stripe.com/test_replace_tote',     img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1100&q=85' },
+      { id:'card',   name:'Atelier Cardholder',  category:'Small Leather', price:380,  total:100, sold:0, sizes:['One Size'],                stripe:'https://buy.stripe.com/test_replace_card',     img:'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1100&q=85' },
+      { id:'belt',   name:'Heritage Belt',       category:'Accessory',     price:620,  total:100, sold:0, sizes:['85','90','95','100','105'], stripe:'https://buy.stripe.com/test_replace_belt',     img:'https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=1100&q=85' },
+      { id:'loafer', name:'Florentine Loafer',   category:'Footwear',      price:1180, total:100, sold:0, sizes:['40','41','42','43','44'],  stripe:'https://buy.stripe.com/test_replace_loafer',   img:'https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=1100&q=85' },
     ];
     const products = JSON.parse(localStorage.getItem('justin-products') || 'null') || DEFAULT_PRODUCTS;
     /* persist current snapshot so admin reflects defaults on first load */
@@ -903,6 +954,99 @@
       };
       rotate(); setInterval(rotate, 12000);
     }, 8000);
+
+    /* ====================================================== */
+    /*  SHOP-THE-LOOK MODAL                                    */
+    /* ====================================================== */
+    const lookModal = $('#look-modal');
+    function openLook(frameEl) {
+      const ids = (frameEl.dataset.look || '').split(',').map(s => s.trim()).filter(Boolean);
+      const items = ids.map(id => products.find(p => p.id === id)).filter(Boolean);
+      const frameNum = (frameEl.querySelector('figcaption span')?.textContent || 'Look').replace(/[^\d]/g, '') || '';
+      $('#look-eyebrow').textContent = frameNum ? `Frame ${frameNum} — Shop the Look` : 'Shop the Look';
+      $('#look-products').innerHTML = items.map(p => {
+        const remaining = (p.total || 100) - (p.sold || 0);
+        return `
+          <article class="border border-ink/10 bg-white/70 p-4">
+            <div class="aspect-[4/5] overflow-hidden bg-cream2">
+              <img src="${p.img}" alt="${p.name}" class="h-full w-full object-cover" loading="lazy"/>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <h4 class="font-serif text-base font-light text-ink">${p.name}</h4>
+              <span class="font-mono text-[12px] text-ink2">€ ${p.price}</span>
+            </div>
+            <p class="mt-1 text-[10px] font-light uppercase tracking-[0.3em] text-mute">${remaining} of ${p.total || 100} remaining</p>
+            <button class="look-add mt-3 w-full border border-ink bg-transparent py-2 text-[10px] font-light uppercase tracking-[0.35em] text-ink hover:bg-ink hover:text-cream"
+                    data-look-add="${p.id}">View Piece →</button>
+          </article>
+        `;
+      }).join('');
+      lookModal.classList.add('open');
+      lookModal.setAttribute('aria-hidden', 'false');
+
+      $$('[data-look-add]').forEach(b => b.addEventListener('click', () => {
+        closeLook();
+        const target = document.querySelector(`[data-add="${b.dataset.lookAdd}"]`);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => target.closest('article').animate(
+            [{ outline: '2px solid hsl(150 22% 32% / 0)' }, { outline: '2px solid hsl(150 22% 32% / .6)' }, { outline: '2px solid hsl(150 22% 32% / 0)' }],
+            { duration: 1600 }
+          ), 600);
+        }
+      }));
+    }
+    function closeLook() {
+      lookModal.classList.remove('open');
+      lookModal.setAttribute('aria-hidden', 'true');
+    }
+    document.querySelectorAll('.shop-look').forEach(btn => {
+      btn.addEventListener('click', e => { e.stopPropagation(); openLook(btn.closest('figure')); });
+    });
+    lookModal.addEventListener('click', e => { if (e.target === lookModal || e.target.hasAttribute('data-close')) closeLook(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLook(); });
+
+    /* ====================================================== */
+    /*  ABANDONED CART REMINDER                                */
+    /* ====================================================== */
+    setTimeout(() => {
+      const cart = JSON.parse(localStorage.getItem('justin-cart') || '[]');
+      const shown = sessionStorage.getItem('justin-abandoned-shown');
+      if (cart.length > 0 && !shown) {
+        const count = cart.reduce((n, c) => n + c.qty, 0);
+        showToast(`Your bag is still waiting — ${count} piece${count > 1 ? 's' : ''} reserved.`);
+        sessionStorage.setItem('justin-abandoned-shown', '1');
+      }
+    }, 4000);
+
+    /* ====================================================== */
+    /*  EN / DE LANGUAGE TOGGLE                                */
+    /* ====================================================== */
+    const I18N = {
+      en: {
+        'nav.drop':'Drop','nav.atelier':'Atelier','nav.lookbook':'Lookbook','nav.heritage':'Heritage',
+        'nav.search':'Search','nav.account':'Account','nav.cart':'Cart',
+      },
+      de: {
+        'nav.drop':'Drop','nav.atelier':'Atelier','nav.lookbook':'Lookbook','nav.heritage':'Erbe',
+        'nav.search':'Suche','nav.account':'Konto','nav.cart':'Warenkorb',
+      }
+    };
+    function applyLang(lang) {
+      document.documentElement.lang = lang;
+      const dict = I18N[lang] || I18N.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (dict[key]) el.textContent = dict[key];
+      });
+      document.querySelectorAll('.lang-toggle').forEach(b => {
+        b.classList.toggle('text-ink', b.dataset.lang === lang);
+        b.classList.toggle('text-ink2', b.dataset.lang !== lang);
+      });
+      localStorage.setItem('justin-lang', lang);
+    }
+    document.querySelectorAll('.lang-toggle').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+    applyLang(localStorage.getItem('justin-lang') || 'en');
 
     /* INIT */
     renderProducts();

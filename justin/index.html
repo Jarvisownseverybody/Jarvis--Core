@@ -175,6 +175,139 @@
     .counter { font-variant-numeric: tabular-nums; }
 
     :focus-visible { outline: 2px solid #262217; outline-offset: 2px; border-radius: 0; }
+
+    /* ============================================================ */
+    /*  BACKGROUND PATHS HERO (ported from shadcn/react component)  */
+    /* ============================================================ */
+    .paths-hero {
+      position: relative;
+      min-height: 100svh; width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      background: #efeae0;
+    }
+    .paths-hero .paths-layer {
+      position: absolute; inset: 0;
+      pointer-events: none;
+      color: #262217;
+    }
+    .paths-hero .paths-layer svg { width: 100%; height: 100%; display: block; }
+    .paths-hero .paths-layer path {
+      fill: none; stroke: currentColor; stroke-linecap: round;
+      animation: pathFlow var(--dur, 26s) linear infinite;
+    }
+    @keyframes pathFlow {
+      0%   { stroke-dasharray: 30% 70%; stroke-dashoffset: 0%;   opacity: .35; }
+      50%  { stroke-dasharray: 60% 40%; stroke-dashoffset: -50%; opacity: .7;  }
+      100% { stroke-dasharray: 30% 70%; stroke-dashoffset: -100%; opacity: .35; }
+    }
+    .paths-hero .paths-content { position: relative; z-index: 10; max-width: 64rem; padding: 0 1.5rem; text-align: center; }
+    .paths-hero h1 {
+      font-family: 'Cardo', serif;
+      font-weight: 700; letter-spacing: -0.04em; line-height: .95;
+      margin: 0 0 2rem; font-size: clamp(3rem, 9vw, 8rem);
+    }
+    .paths-hero h1 .word { display: inline-block; margin-right: 1rem; }
+    .paths-hero h1 .word:last-child { margin-right: 0; }
+    .paths-hero h1 .letter {
+      display: inline-block;
+      opacity: 0; transform: translateY(100px);
+      background: linear-gradient(to right, #262217, rgba(38, 34, 23, 0.78));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    /* CTA pill w/ gradient border + backdrop blur (the shadcn-style button look) */
+    .paths-hero .pill {
+      position: relative; display: inline-block;
+      padding: 1px; border-radius: 1.15rem;
+      background: linear-gradient(to bottom, rgba(0,0,0,.12), rgba(255,255,255,.12));
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      overflow: hidden;
+      box-shadow: 0 10px 30px -10px rgba(40,30,15,.18);
+      transition: box-shadow .3s var(--ease);
+    }
+    .paths-hero .pill:hover { box-shadow: 0 18px 40px -10px rgba(40,30,15,.28); }
+    .paths-hero .pill > a {
+      display: inline-flex; align-items: center; gap: .9rem;
+      padding: 1.1rem 2rem; border-radius: 1.08rem;
+      background: rgba(239, 234, 224, 0.96);
+      border: 1px solid rgba(38,34,23,.12);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+      color: #262217; font-weight: 500;
+      transition: transform .3s var(--ease), background .3s ease;
+    }
+    .paths-hero .pill:hover > a { background: #efeae0; transform: translateY(-2px); }
+    .paths-hero .pill .arrow { transition: transform .3s var(--ease), opacity .3s ease; opacity: .7; }
+    .paths-hero .pill:hover .arrow { transform: translateX(6px); opacity: 1; }
+    .paths-hero .pre {
+      display: inline-block; opacity: 0; transform: translateY(20px);
+      transition: opacity 1.6s var(--ease), transform 1.6s var(--ease);
+    }
+    .paths-hero.in .pre { opacity: 1; transform: translateY(0); }
+    .paths-hero .pill { opacity: 0; transform: translateY(20px); transition: opacity 1.4s var(--ease) .8s, transform 1.4s var(--ease) .8s; }
+    .paths-hero.in .pill { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================ */
+    /*  SCROLL-CARD (ported container-scroll-animation)             */
+    /* ============================================================ */
+    .scroll-card-section {
+      position: relative;
+      height: 60rem;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0.5rem;
+    }
+    @media (min-width: 768px) {
+      .scroll-card-section { height: 80rem; padding: 5rem; }
+    }
+    .scroll-card-stage {
+      width: 100%; position: relative;
+      padding: 2.5rem 0;
+      perspective: 1000px;
+    }
+    @media (min-width: 768px) {
+      .scroll-card-stage { padding: 10rem 0; }
+    }
+    .scroll-card-title {
+      max-width: 64rem; margin: 0 auto; text-align: center;
+      will-change: transform;
+    }
+    .scroll-card {
+      max-width: 64rem; margin: -3rem auto 0;
+      width: 100%; height: 30rem;
+      border: 4px solid #6c6c6c;
+      padding: 0.5rem;
+      background: #222222;
+      border-radius: 30px;
+      box-shadow:
+        0 9px 20px rgba(0,0,0,.29),
+        0 37px 37px rgba(0,0,0,.26),
+        0 84px 50px rgba(0,0,0,.15),
+        0 149px 60px rgba(0,0,0,.04);
+      will-change: transform;
+      transform-origin: center;
+      transform: rotateX(20deg) scale(0.7);
+    }
+    @media (min-width: 768px) {
+      .scroll-card { height: 40rem; padding: 1.5rem; transform: rotateX(20deg) scale(1.05); }
+    }
+    .scroll-card-inner {
+      height: 100%; width: 100%;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #18181b;
+    }
+    @media (min-width: 768px) {
+      .scroll-card-inner { border-radius: 1rem; padding: 1rem; }
+    }
+    .scroll-card-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: left top;
+      border-radius: 1rem;
+      display: block;
+      user-select: none; -webkit-user-drag: none;
+    }
   </style>
 </head>
 
@@ -317,6 +450,27 @@
             <p class="mt-6 text-[14px] font-light leading-[1.85] text-ink2">
               Keine Saisons, keine Re-Stocks. Jeder Drop ist ein geschlossenes Stück Arbeit. Was nicht innerhalb der hundert verkauft wird, kommt nicht zurück.
             </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- SCROLL-CARD — campaign reveal (3D rotate on scroll)      -->
+    <!-- ====================================================== -->
+    <section class="scroll-card-section" id="campaign">
+      <div class="scroll-card-stage">
+        <div class="scroll-card-title">
+          <span class="reveal label text-mute">Kampagne · Drop 001</span>
+          <h2 class="display mt-6 text-ink" style="font-size: clamp(2rem, 5vw, 3.5rem);">
+            Hergestellt von Hand.<br/>
+            <span class="italic-d" style="font-size: clamp(2.4rem, 8vw, 6rem); font-weight: 700;">Numeriert. Versiegelt.</span>
+          </h2>
+        </div>
+        <div class="scroll-card" id="scroll-card">
+          <div class="scroll-card-inner">
+            <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1800&q=88"
+                 alt="JUSTIN Drop 001 — Kampagne" draggable="false" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -625,6 +779,37 @@
     }
 
     /* ===================================================== */
+    /*  CAMPAIGN — 3D rotate card on scroll                   */
+    const scrollCard = document.getElementById('scroll-card');
+    const scrollCardTitle = document.querySelector('.scroll-card-title');
+    if (scrollCard) {
+      const isMobile = window.innerWidth <= 768;
+      const scaleStart = isMobile ? 0.7 : 1.05;
+      const scaleEnd   = isMobile ? 0.9 : 1;
+      gsap.fromTo(scrollCard,
+        { rotateX: 20, scale: scaleStart },
+        { rotateX: 0, scale: scaleEnd, ease: 'none',
+          scrollTrigger: {
+            trigger: '.scroll-card-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          }
+        }
+      );
+      gsap.fromTo(scrollCardTitle,
+        { y: 0 },
+        { y: -100, ease: 'none',
+          scrollTrigger: {
+            trigger: '.scroll-card-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          }
+        }
+      );
+    }
+
     /*  STORY — pinned image scale on scroll                  */
     /* ===================================================== */
     const stickyImg = document.querySelector('.pinned-split .sticky-img img');

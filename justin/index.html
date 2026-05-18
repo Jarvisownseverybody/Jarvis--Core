@@ -122,20 +122,68 @@
     .italic-d { font-family: 'Cardo', serif; font-weight: 400; font-style: italic; }
 
     /* ---------- hero: clip-path reveal + 3D parallax stage ---------- */
-    .hero { position: relative; overflow: hidden; background: #e6dfd1; }
-    .hero-stage { position: relative; perspective: 1400px; perspective-origin: 50% 50%; transform-style: preserve-3d; }
-    .hero-img-wrap { transform-style: preserve-3d; will-change: transform; transition: transform .8s var(--ease); }
-    .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,.5) 100%); }
-    .hero-overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(2rem, 6vw, 5rem); color: #efeae0; transform-style: preserve-3d; will-change: transform; transition: transform .8s var(--ease); }
-
-    /* clip-path text reveal */
-    .clip-text {
-      display: inline-block;
-      clip-path: inset(0 100% 0 0);
-      transition: clip-path 1.6s var(--ease);
+    /* ---------- wordmark hero (Three.js 3D brand) ---------- */
+    .wordmark-hero {
+      position: relative; width: 100%; height: 100svh;
+      background: #efeae0;
+      overflow: hidden;
     }
-    .clip-text.in { clip-path: inset(0 0 0 0); }
+    .wordmark-hero canvas {
+      position: absolute; inset: 0;
+      width: 100% !important; height: 100% !important;
+      display: block;
+    }
+    .wm-release {
+      position: absolute; top: 6vh; left: 50%; transform: translateX(-50%);
+      z-index: 10; pointer-events: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: .45em; text-transform: uppercase;
+      color: #7d7464;
+    }
+    .wm-meta {
+      position: absolute; bottom: 7vh; left: 50%; transform: translateX(-50%);
+      z-index: 10; text-align: center;
+      opacity: 0;
+      transition: opacity 1.4s var(--ease) 1.8s, transform 1.4s var(--ease) 1.8s;
+    }
+    .wm-meta.in { opacity: 1; }
+    .wm-eyebrow {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: .45em; text-transform: uppercase;
+      color: #7d7464;
+    }
+    .wm-cta {
+      display: inline-flex; align-items: center; gap: .55rem;
+      margin-top: 1.4rem;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #262217;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: .4em; text-transform: uppercase;
+      color: #262217; text-decoration: none;
+      transition: gap .3s var(--ease);
+    }
+    .wm-cta:hover { gap: 1rem; }
+    .wm-cta span { display: inline-block; transition: transform .3s var(--ease); }
+    .wm-cta:hover span { transform: translateX(4px); }
+    /* loader bar shown until the wordmark mounts */
+    .wm-loader {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      z-index: 5; width: 120px; height: 1px;
+      background: rgba(38, 34, 23, 0.15);
+      overflow: hidden;
+      transition: opacity .6s ease;
+    }
+    .wm-loader.gone { opacity: 0; pointer-events: none; }
+    .wm-loader span {
+      display: block; width: 30%; height: 100%;
+      background: #262217;
+      animation: wmBar 1.3s ease-in-out infinite;
+    }
+    @keyframes wmBar {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(430%); }
+    }
 
     /* ---------- sticky horizontal lookbook ---------- */
     .lookbook-h { position: relative; height: 320vh; }
@@ -400,25 +448,15 @@
   <main>
 
     <!-- ====================================================== -->
-    <!-- HERO — editorial, parallax stage, clip-path reveal      -->
+    <!-- HERO — 3D wordmark (Three.js)                            -->
     <!-- ====================================================== -->
-    <section id="top" class="hero" style="height: clamp(680px, 92vh, 1000px);">
-      <div class="hero-stage h-full">
-        <div class="hero-img-wrap absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2400&q=88"
-               alt="JUSTIN Drop 001 — editorial campaign" loading="eager"/>
-        </div>
-        <div class="hero-veil"></div>
-        <div class="hero-overlay">
-          <span class="label opacity-90">Drop 001 — Verfügbar 06 / 06 / 26</span>
-          <h1 class="mt-6 display text-paper" style="font-size: clamp(3rem, 9vw, 8rem);">
-            <span class="clip-text" id="hero-clip-1">Made in</span><br/>
-            <span class="clip-text italic-d" id="hero-clip-2">Berlin.</span>
-          </h1>
-          <a href="#shop" class="cta mt-8 inline-block label px-7 py-3.5 border border-paper/85 text-paper hover:bg-paper hover:text-ink transition-colors duration-300">
-            Entdecke Drop 001
-          </a>
-        </div>
+    <section id="top" class="wordmark-hero">
+      <span class="wm-release reveal in">Drop 001 — Verfügbar 06 / 06 / 26</span>
+      <canvas id="wordmark-3d"></canvas>
+      <div class="wm-loader" id="wm-loader"><span></span></div>
+      <div class="wm-meta">
+        <span class="wm-eyebrow">Made in Berlin · MMXXVI</span>
+        <a href="#shop" class="wm-cta">Entdecke Drop 001 <span>→</span></a>
       </div>
     </section>
 
@@ -602,33 +640,6 @@
       </div>
     </section>
 
-    <!-- ====================================================== -->
-    <!-- 3D OBJECT STUDY — interactive refractive form            -->
-    <!-- ====================================================== -->
-    <section id="interactive" class="px-6 py-20 md:py-24">
-      <div class="reveal mx-auto mb-10 max-w-[1400px] flex items-end justify-between gap-6">
-        <div>
-          <span class="label text-mute">05 / Mark</span>
-          <h2 class="display mt-4 text-ink" style="font-size: clamp(2.2rem, 5vw, 3.6rem);">
-            Die <span class="italic-d">Signatur.</span>
-          </h2>
-        </div>
-        <span class="label text-mute hidden md:inline">Bewege deine Maus</span>
-      </div>
-
-      <div class="spline-card reveal">
-        <div class="spline-grid">
-          <div class="spline-text">
-            <h2>Der<br/><span class="italic-d">Schriftzug.</span></h2>
-            <p>In Bronze gegossen, langsam gedreht. Dieselbe Hand, die jedes Piece signiert, formte diesen Mark — die Signatur des Hauses.</p>
-            <span class="hint">Drag · Float</span>
-          </div>
-          <div class="spline-canvas">
-            <canvas id="hero-3d"></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ====================================================== -->
     <!-- COMMITMENTS — inline, refined                            -->
@@ -817,28 +828,7 @@
       ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => el.classList.add('in') });
     });
 
-    /* ===================================================== */
-    /*  HERO — clip-path text reveal + cursor parallax        */
-    /* ===================================================== */
-    setTimeout(() => document.getElementById('hero-clip-1')?.classList.add('in'), 250);
-    setTimeout(() => document.getElementById('hero-clip-2')?.classList.add('in'), 700);
-
-    const heroStage = document.querySelector('.hero-stage');
-    if (heroStage) {
-      const heroImg  = heroStage.querySelector('.hero-img-wrap');
-      const heroText = heroStage.querySelector('.hero-overlay');
-      heroStage.addEventListener('mousemove', e => {
-        const r = heroStage.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        heroImg.style.transform  = `translate3d(${x * 18}px, ${y * 18}px, 0) scale(1.05)`;
-        heroText.style.transform = `translate3d(${x * -10}px, ${y * -10}px, 0)`;
-      });
-      heroStage.addEventListener('mouseleave', () => {
-        heroImg.style.transform  = 'translate3d(0, 0, 0) scale(1)';
-        heroText.style.transform = 'translate3d(0, 0, 0)';
-      });
-    }
+    /* Hero is now a Three.js 3D wordmark — init3D below handles it. */
 
     /* ===================================================== */
     /*  LOOKBOOK — sticky horizontal scroll                   */
@@ -1238,10 +1228,12 @@
     })();
 
     /* ===================================================== */
-    /*  3D WORDMARK — JUSTIN extruded in bronze                */
+    /*  3D WORDMARK HERO — JUSTIN letters drop in on load     */
     /* ===================================================== */
     (async function init3D() {
-      const canvas = document.getElementById('hero-3d');
+      const canvas  = document.getElementById('wordmark-3d');
+      const loader  = document.getElementById('wm-loader');
+      const meta    = document.querySelector('.wm-meta');
       if (!canvas) return;
 
       let THREE, RoomEnvironment, EffectComposer, RenderPass, UnrealBloomPass, FontLoader, TextGeometry;
@@ -1255,97 +1247,135 @@
         ({ TextGeometry }    = await import('three/addons/geometries/TextGeometry.js'));
       } catch (err) {
         console.warn('Three.js failed', err);
-        canvas.parentElement.innerHTML = '<div class="flex h-full items-center justify-center text-mute font-mono text-xs">3D scene unavailable</div>';
+        loader?.classList.add('gone');
+        meta?.classList.add('in');
         return;
       }
 
       const scene = new THREE.Scene();
-      /* Match the cream card background so the wordmark looks embedded, not floating in a void */
-      scene.background = new THREE.Color(0xe6dfd1);
+      scene.background = new THREE.Color(0xefeae0);   /* match the hero bg */
 
-      const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-      camera.position.set(0, 0, 5);
+      const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
+      camera.position.set(0, 0, 7);
 
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-      renderer.outputColorSpace  = THREE.SRGBColorSpace;
+      renderer.outputColorSpace   = THREE.SRGBColorSpace;
       renderer.toneMapping        = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.0;
 
-      /* Procedural studio environment for the metal reflections */
+      /* Procedural studio env so the bronze has something to reflect */
       const pmrem = new THREE.PMREMGenerator(renderer);
       scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
 
-      /* Warm lights — match brand palette (cream + champagne, no cool blue) */
-      scene.add(new THREE.AmbientLight(0xfff4e0, 0.55));
-      const key  = new THREE.DirectionalLight(0xfff4dd, 1.3);
-      key.position.set(3, 4, 3);
-      scene.add(key);
-      const rim = new THREE.PointLight(0xd9b88a, 14, 12, 1.6); /* champagne rim */
-      rim.position.set(-3.5, -1, 1.5);
-      scene.add(rim);
-      const warm = new THREE.PointLight(0xe8c898, 10, 12, 1.6);  /* orbiting warm */
-      warm.position.set(3, 1.5, 2);
-      scene.add(warm);
+      /* Warm lights — brand palette only */
+      scene.add(new THREE.AmbientLight(0xfff4e0, 0.6));
+      const key  = new THREE.DirectionalLight(0xfff4dd, 1.4);
+      key.position.set(3, 5, 4); scene.add(key);
+      const rim  = new THREE.PointLight(0xd9b88a, 18, 14, 1.6);
+      rim.position.set(-4, -1, 2); scene.add(rim);
+      const warm = new THREE.PointLight(0xe8c898, 12, 14, 1.6);
+      warm.position.set(3, 1.5, 2); scene.add(warm);
 
-      /* Bronze metal material — burnished, warm, premium */
-      const mat = new THREE.MeshPhysicalMaterial({
-        color: 0xa8865c,           /* warm bronze */
-        metalness: 1,
-        roughness: 0.28,
-        clearcoat: 0.6,
-        clearcoatRoughness: 0.18,
+      /* Bronze metal */
+      const matTemplate = {
+        color: 0xa8865c, metalness: 1, roughness: 0.28,
+        clearcoat: 0.6, clearcoatRoughness: 0.18,
         envMapIntensity: 1.6,
-      });
+      };
 
-      /* Postprocessing — very subtle bloom, just edge glow */
+      /* Subtle bloom */
       const composer = new EffectComposer(renderer);
       composer.addPass(new RenderPass(scene, camera));
       const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.18, 0.4, 0.85);
       composer.addPass(bloom);
 
-      /* Load font, build the JUSTIN wordmark */
+      const group   = new THREE.Group();
+      scene.add(group);
+      const letterMeshes = [];
+
+      function buildFallback() {
+        /* If the font CDN fails, render a single bronze ring so the page still has a hero moment. */
+        const geo = new THREE.TorusGeometry(1.4, 0.18, 32, 200);
+        const m = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({ ...matTemplate, transparent: true, opacity: 0 }));
+        group.add(m);
+        letterMeshes.push({ mesh: m, targetY: 0 });
+        runEntrance();
+      }
+
+      function runEntrance() {
+        /* GSAP entrance: letters drop from above, fade in, stagger */
+        letterMeshes.forEach((l, i) => {
+          gsap.to(l.mesh.material, { opacity: 1, duration: 1.0, delay: 0.1 * i + 0.15, ease: 'power2.out' });
+          gsap.to(l.mesh.position,  { y: l.targetY, duration: 1.4, delay: 0.1 * i + 0.15, ease: 'expo.out' });
+          gsap.to(l.mesh.rotation,  { x: 0, duration: 1.4, delay: 0.1 * i + 0.15, ease: 'expo.out' });
+        });
+        /* loader out + meta in after the last letter lands */
+        const total = 0.15 + (letterMeshes.length - 1) * 0.1 + 1.4;
+        setTimeout(() => { loader?.classList.add('gone'); meta?.classList.add('in'); }, total * 1000 + 100);
+      }
+
+      /* Load font, build one mesh per letter */
       const fontLoader = new FontLoader();
       const fontUrl = 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/optimer_regular.typeface.json';
-      let mesh = null;
 
       fontLoader.load(fontUrl, (font) => {
-        const geo = new TextGeometry('JUSTIN', {
-          font,
-          size: 0.78,
-          depth: 0.3,
-          curveSegments: 14,
-          bevelEnabled: true,
-          bevelThickness: 0.05,
-          bevelSize: 0.03,
-          bevelOffset: 0,
-          bevelSegments: 6,
+        const text = 'JUSTIN';
+        const size = 1.4;
+        const opts = {
+          font, size, depth: 0.42,
+          curveSegments: 16,
+          bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.035, bevelOffset: 0, bevelSegments: 6,
+        };
+
+        /* First pass: measure each letter so we can place them with even spacing */
+        const widths = [];
+        let totalWidth = 0;
+        const tracking = 0.08;
+        for (const ch of text) {
+          const g = new TextGeometry(ch, opts);
+          g.computeBoundingBox();
+          const w = g.boundingBox.max.x - g.boundingBox.min.x;
+          widths.push({ ch, geo: g, w, min: g.boundingBox.min.x });
+          totalWidth += w;
+        }
+        totalWidth += tracking * (text.length - 1);
+
+        /* Second pass: position each letter, start above viewport + invisible */
+        let cursor = -totalWidth / 2;
+        widths.forEach(({ ch, geo, w, min }, i) => {
+          geo.translate(-min, 0, 0);                  /* origin to glyph left edge */
+          geo.computeBoundingBox();
+          const yMin = geo.boundingBox.min.y;
+          geo.translate(0, -yMin - (geo.boundingBox.max.y - yMin) / 2, 0); /* center vertically */
+
+          const mat = new THREE.MeshPhysicalMaterial({ ...matTemplate, transparent: true, opacity: 0 });
+          const m = new THREE.Mesh(geo, mat);
+          m.position.set(cursor, 6, 0);   /* start above */
+          m.rotation.x = -0.6;
+          group.add(m);
+          letterMeshes.push({ mesh: m, targetY: 0 });
+          cursor += w + tracking;
         });
-        geo.center();
-        mesh = new THREE.Mesh(geo, mat);
-        scene.add(mesh);
+
+        runEntrance();
       }, undefined, (err) => {
-        console.warn('Font load failed, falling back to abstract form', err);
-        /* fallback: torus knot in bronze if font fails */
-        const geo = new THREE.TorusKnotGeometry(1, 0.32, 160, 24);
-        mesh = new THREE.Mesh(geo, mat);
-        scene.add(mesh);
+        console.warn('Font load failed, fallback ring', err);
+        buildFallback();
       });
 
-      /* Mouse interaction */
+      /* Cursor parallax (lerped lean on the whole group) */
       let mx = 0, my = 0, tx = 0, ty = 0;
-      canvas.addEventListener('pointermove', e => {
-        const r = canvas.getBoundingClientRect();
-        mx = (e.clientX - r.left) / r.width  - 0.5;
-        my = (e.clientY - r.top)  / r.height - 0.5;
+      window.addEventListener('pointermove', e => {
+        mx = (e.clientX / innerWidth)  - 0.5;
+        my = (e.clientY / innerHeight) - 0.5;
       });
 
       /* Resize */
       function resize() {
         const w = canvas.clientWidth, h = canvas.clientHeight;
         if (!w || !h) return;
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
+        camera.aspect = w / h; camera.updateProjectionMatrix();
         renderer.setSize(w, h, false);
         composer.setSize(w, h);
         bloom.resolution.set(w, h);
@@ -1358,15 +1388,13 @@
       function frame(time) {
         if (!alive) return;
         requestAnimationFrame(frame);
-        if (mesh) {
-          tx += (my *  0.4 - tx) * 0.05;
-          ty += (mx *  0.5 - ty) * 0.05;
-          mesh.rotation.x = tx + Math.sin(time * 0.0004) * 0.06;
-          mesh.rotation.y = ty + time * 0.00025; /* slow constant rotation */
-          mesh.position.y = Math.sin(time * 0.0008) * 0.08;
-        }
-        warm.position.x = Math.cos(time * 0.0005) * 3;
-        warm.position.z = Math.sin(time * 0.0005) * 3;
+        tx += (my *  0.25 - tx) * 0.06;
+        ty += (mx *  0.35 - ty) * 0.06;
+        group.rotation.x = tx + Math.sin(time * 0.0004) * 0.03;
+        group.rotation.y = ty + Math.sin(time * 0.0003) * 0.05;
+        group.position.y = Math.sin(time * 0.0007) * 0.08;
+        warm.position.x = Math.cos(time * 0.0005) * 3.5;
+        warm.position.z = Math.sin(time * 0.0005) * 3.5;
         composer.render();
       }
       frame(0);

@@ -63,6 +63,8 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <!-- Spline viewer (vanilla web component — no React needed) -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"></script>
 
   <style>
     :root { --ease: cubic-bezier(.22, 1, .36, 1); }
@@ -308,6 +310,73 @@
       display: block;
       user-select: none; -webkit-user-drag: none;
     }
+
+    /* ============================================================ */
+    /*  SPLINE 3D SCENE — interactive atelier card                  */
+    /* ============================================================ */
+    .spline-card {
+      position: relative; width: 100%; max-width: 1400px;
+      margin: 0 auto;
+      height: 520px;
+      background: rgba(0, 0, 0, 0.96);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px -20px rgba(0,0,0,0.35);
+    }
+    .spline-grid { display: grid; grid-template-columns: 1fr; height: 100%; position: relative; z-index: 2; }
+    @media (min-width: 768px) { .spline-grid { grid-template-columns: 1fr 1fr; } }
+    .spline-text {
+      padding: 2rem; display: flex; flex-direction: column; justify-content: center;
+      position: relative; z-index: 10;
+    }
+    @media (min-width: 768px) { .spline-text { padding: 3rem 3rem; } }
+    .spline-text h2 {
+      font-family: 'Cardo', serif;
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      font-weight: 700; letter-spacing: -.025em; line-height: 1;
+      background: linear-gradient(to bottom, #fafafa 0%, #a3a3a3 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .spline-text p {
+      margin-top: 1rem; max-width: 32rem;
+      color: #d4d4d4;
+      font-size: 14px; line-height: 1.7;
+    }
+    .spline-text .hint {
+      margin-top: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: .35em; text-transform: uppercase;
+      color: #71717a;
+    }
+    .spline-canvas { position: relative; min-height: 260px; height: 100%; }
+    .spline-canvas spline-viewer {
+      width: 100%; height: 100%; display: block;
+      background: transparent;
+      --spline-logo-display: none;
+    }
+    /* Hide Spline watermark in lower-right (still visible if you scroll/poke, just out of frame for the demo) */
+    .spline-canvas::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 150px; height: 50px; background: rgba(0,0,0,0.96);
+      pointer-events: none;
+    }
+
+    /* Spotlight overlay (ported from Aceternity spotlight) */
+    @keyframes spotlightIn {
+      0%   { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+      100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+    }
+    .spotlight-svg {
+      position: absolute; pointer-events: none;
+      z-index: 1; top: -10rem; left: 0;
+      height: 169%; width: 138%;
+      opacity: 0;
+      animation: spotlightIn 2s var(--ease) forwards .4s;
+    }
+    @media (min-width: 1024px) {
+      .spotlight-svg { width: 84%; left: 15rem; top: -5rem; }
+    }
   </style>
 </head>
 
@@ -543,6 +612,54 @@
             "Sobald die hundert vergeben sind, ist es vorbei. Punkt."
           </p>
           <p class="reveal mt-6 label text-mute">— Justin, Founder</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- SPLINE 3D ATELIER — interactive scene                    -->
+    <!-- ====================================================== -->
+    <section id="interactive" class="px-6 py-20 md:py-24">
+      <div class="reveal mx-auto mb-10 max-w-[1400px] flex items-end justify-between gap-6">
+        <div>
+          <span class="label text-mute">05 / Interaktiv</span>
+          <h2 class="display mt-4 text-ink" style="font-size: clamp(2.2rem, 5vw, 3.6rem);">
+            Im <span class="italic-d">Atelier.</span>
+          </h2>
+        </div>
+        <span class="label text-mute hidden md:inline">Bewege deine Maus</span>
+      </div>
+
+      <div class="spline-card reveal">
+        <!-- Spotlight overlay -->
+        <svg class="spotlight-svg" viewBox="0 0 3787 2842" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g filter="url(#spotlight-filter)">
+            <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501"
+              transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
+              fill="white" fill-opacity="0.21"/>
+          </g>
+          <defs>
+            <filter id="spotlight-filter" x="0.86" y="0.84" width="3785.16" height="2840.26"
+              filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+              <feGaussianBlur stdDeviation="151" result="effect1_foregroundBlur_1065_8"/>
+            </filter>
+          </defs>
+        </svg>
+
+        <div class="spline-grid">
+          <div class="spline-text">
+            <h2>Interactive 3D</h2>
+            <p>Ein Blick ins Atelier — entworfen, geschnitten, vernäht. Bewege die Szene, scrolle hinein, sieh dir die Maschine an, die jedes Piece formt.</p>
+            <span class="hint">Drag · Zoom · Explore</span>
+          </div>
+          <div class="spline-canvas">
+            <spline-viewer
+              url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              loading-anim-type="spinner-small-dark">
+            </spline-viewer>
+          </div>
         </div>
       </div>
     </section>

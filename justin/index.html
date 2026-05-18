@@ -63,8 +63,16 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <!-- Spline viewer (vanilla web component — no React needed) -->
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"></script>
+
+  <!-- Three.js (WebGL hero form) via importmap -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 
   <style>
     :root { --ease: cubic-bezier(.22, 1, .36, 1); }
@@ -350,17 +358,11 @@
       color: #71717a;
     }
     .spline-canvas { position: relative; min-height: 260px; height: 100%; }
-    .spline-canvas spline-viewer {
-      width: 100%; height: 100%; display: block;
-      background: transparent;
-      --spline-logo-display: none;
+    .spline-canvas canvas {
+      width: 100% !important; height: 100% !important; display: block;
+      cursor: grab;
     }
-    /* Hide Spline watermark in lower-right (still visible if you scroll/poke, just out of frame for the demo) */
-    .spline-canvas::after {
-      content: ''; position: absolute; bottom: 0; right: 0;
-      width: 150px; height: 50px; background: rgba(0,0,0,0.96);
-      pointer-events: none;
-    }
+    .spline-canvas canvas:active { cursor: grabbing; }
 
     /* Spotlight overlay (ported from Aceternity spotlight) */
     @keyframes spotlightIn {
@@ -617,14 +619,14 @@
     </section>
 
     <!-- ====================================================== -->
-    <!-- SPLINE 3D ATELIER — interactive scene                    -->
+    <!-- 3D OBJECT STUDY — interactive refractive form            -->
     <!-- ====================================================== -->
     <section id="interactive" class="px-6 py-20 md:py-24">
       <div class="reveal mx-auto mb-10 max-w-[1400px] flex items-end justify-between gap-6">
         <div>
-          <span class="label text-mute">05 / Interaktiv</span>
+          <span class="label text-mute">05 / Form</span>
           <h2 class="display mt-4 text-ink" style="font-size: clamp(2.2rem, 5vw, 3.6rem);">
-            Im <span class="italic-d">Atelier.</span>
+            Form · <span class="italic-d">Objekt.</span>
           </h2>
         </div>
         <span class="label text-mute hidden md:inline">Bewege deine Maus</span>
@@ -650,15 +652,12 @@
 
         <div class="spline-grid">
           <div class="spline-text">
-            <h2>Interactive 3D</h2>
-            <p>Ein Blick ins Atelier — entworfen, geschnitten, vernäht. Bewege die Szene, scrolle hinein, sieh dir die Maschine an, die jedes Piece formt.</p>
-            <span class="hint">Drag · Zoom · Explore</span>
+            <h2>An object<br/>in glass.</h2>
+            <p>Eine Studie in Volumen, Licht und Brechung. Das selbe Auge, das die Pieces formt, formte dieses Objekt — abstrakt, präzise, ohne Funktion.</p>
+            <span class="hint">Drag · Float · Explore</span>
           </div>
           <div class="spline-canvas">
-            <spline-viewer
-              url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              loading-anim-type="spinner-small-dark">
-            </spline-viewer>
+            <canvas id="hero-3d"></canvas>
           </div>
         </div>
       </div>
@@ -1269,6 +1268,127 @@
         const t = e.target.closest?.('[data-scramble]');
         if (t) scramble(t);
       }, true);
+    })();
+
+    /* ===================================================== */
+    /*  3D OBJECT — refractive glass icosahedron               */
+    /* ===================================================== */
+    (async function init3D() {
+      const canvas = document.getElementById('hero-3d');
+      if (!canvas) return;
+
+      let THREE, RoomEnvironment, EffectComposer, RenderPass, UnrealBloomPass;
+      try {
+        THREE = await import('three');
+        ({ RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js'));
+        ({ EffectComposer }  = await import('three/addons/postprocessing/EffectComposer.js'));
+        ({ RenderPass }      = await import('three/addons/postprocessing/RenderPass.js'));
+        ({ UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js'));
+      } catch (err) {
+        console.warn('Three.js failed', err);
+        canvas.parentElement.innerHTML = '<div class="flex h-full items-center justify-center text-neutral-500 font-mono text-xs">3D scene unavailable</div>';
+        return;
+      }
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+      camera.position.set(0, 0, 5);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.outputColorSpace  = THREE.SRGBColorSpace;
+      renderer.toneMapping        = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.35;
+
+      /* Procedural studio HDRI so the glass actually has something to refract */
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+
+      /* The form: faceted icosahedron, glass-physical material */
+      const geo = new THREE.IcosahedronGeometry(1.45, 1);
+      const mat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transmission: 0.94,
+        roughness: 0.08,
+        thickness: 1.2,
+        ior: 1.48,
+        metalness: 0,
+        clearcoat: 1,
+        clearcoatRoughness: 0.05,
+        envMapIntensity: 1.25,
+        flatShading: true,
+        side: THREE.DoubleSide,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+
+      /* Inner glow core for the bloom to grab onto */
+      const coreGeo = new THREE.IcosahedronGeometry(0.5, 0);
+      const coreMat = new THREE.MeshBasicMaterial({ color: 0xffe8c8 });
+      const core = new THREE.Mesh(coreGeo, coreMat);
+      scene.add(core);
+
+      /* Accent lights — warm + cool for prismatic edges */
+      const warm = new THREE.PointLight(0xffaa66, 18, 12, 1.6);
+      warm.position.set(3.5, 2, 2);
+      scene.add(warm);
+      const cool = new THREE.PointLight(0x66aaff, 12, 12, 1.6);
+      cool.position.set(-3.5, -2, 1);
+      scene.add(cool);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+
+      /* Postprocessing — bloom only, kept subtle */
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.55, 0.6, 0.45);
+      composer.addPass(bloom);
+
+      /* Mouse interaction */
+      let mx = 0, my = 0, tx = 0, ty = 0;
+      canvas.addEventListener('pointermove', e => {
+        const r = canvas.getBoundingClientRect();
+        mx = (e.clientX - r.left) / r.width  - 0.5;
+        my = (e.clientY - r.top)  / r.height - 0.5;
+      });
+
+      /* Resize */
+      function resize() {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        if (!w || !h) return;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h, false);
+        composer.setSize(w, h);
+        bloom.resolution.set(w, h);
+      }
+      new ResizeObserver(resize).observe(canvas);
+      resize();
+
+      /* Render loop */
+      let alive = true;
+      function frame(time) {
+        if (!alive) return;
+        requestAnimationFrame(frame);
+        tx += (my *  0.6 - tx) * 0.05;
+        ty += (mx *  0.6 - ty) * 0.05;
+        mesh.rotation.x += 0.0035 + tx * 0.006;
+        mesh.rotation.y += 0.006  + ty * 0.006;
+        mesh.position.y = Math.sin(time * 0.0008) * 0.15;
+        core.rotation.copy(mesh.rotation);
+        core.position.copy(mesh.position);
+        warm.position.x = Math.cos(time * 0.0006) * 3.5;
+        warm.position.z = Math.sin(time * 0.0006) * 3.5;
+        composer.render();
+      }
+      frame(0);
+
+      /* Pause render when offscreen (battery) */
+      const io = new IntersectionObserver(entries => {
+        const v = entries[0].isIntersecting;
+        if (v && !alive) { alive = true; frame(0); }
+        else if (!v) alive = false;
+      });
+      io.observe(canvas);
     })();
   </script>
 </body>
